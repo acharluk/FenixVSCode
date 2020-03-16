@@ -2,7 +2,7 @@
 <button onclick="send()">$var{ click }</button>
 
 <ol>
-  $for{names(<li id="name$key">ID="name$key", Name: $value</li>)}
+  $for{languages(<li id="lang_$value">Key: $key, Language: $value</li>)}
 </ol>
 
 <script>
