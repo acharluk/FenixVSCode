@@ -3,15 +3,13 @@ import { readFileSync } from 'fs';
 import { join, format } from 'path';
 
 export default class FenixParser {
+  private _extensionPath: string;
   private _data: any;
-  private _page: string;
   private _functions: { [key: string]: Function };
 
-  constructor(extensionContext: vscode.ExtensionContext,viewName: string) {
-    const viewPath = join(extensionContext.extensionPath, 'views', viewName);
-    
+  constructor(extensionContext: vscode.ExtensionContext) {
+    this._extensionPath = extensionContext.extensionPath;
     this._data = {};
-    this._page = readFileSync(viewPath).toString();
     this._functions = {};
 
     this.registerIntegratedFunctions();
@@ -47,8 +45,11 @@ export default class FenixParser {
     this._functions[name] = func;
   }
 
-  render() {
-    let current = this._page.match(/\$(?<func>.+?){\s*(?<arg>.+?)\s*}/);
+  render(viewName: string) {
+    const viewPath = join(this._extensionPath, 'views', viewName);
+    let page = readFileSync(viewPath).toString();
+
+    let current = page.match(/\$(?<func>.+?){\s*(?<arg>.+?)\s*}/);
     while (current !== null && current.groups) {
       let { func, arg } = current.groups;
       if (!func || !this._functions[func]) {
@@ -56,10 +57,10 @@ export default class FenixParser {
         break;
       }
 
-      this._page = this._page.replace(current[0], this._functions[func](arg, this._data));
+      page = page.replace(current[0], this._functions[func](arg, this._data));
 
-      current = this._page.match(/\$(?<func>.+?){\s*(?<arg>.+?)\s*}/);
+      current = page.match(/\$(?<func>.+?){\s*(?<arg>.+?)\s*}/);
     }
-    return this._page;
+    return page;
   }
 }
