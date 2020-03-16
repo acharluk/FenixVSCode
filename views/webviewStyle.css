@@ -1,0 +1,12 @@
+button {
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+
+  padding: 5px;
+  border: 0;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--vscode-button-hoverBackground);
+}

@@ -30,12 +30,14 @@ export default class FenixParser {
     let fors = this.nextFor();
     while (fors !== null) {
       if (fors.groups) {
-        let { var_name, tag, format } = fors.groups;
+        let { var_name, format } = fors.groups;
 
         if (this._data[var_name]) {
           let result = '';
-          for (let val of this._data[var_name]) {
-            result += `<${tag}>${format.replace('$value', val)}</${tag}>`;
+          for (let key in this._data[var_name]) {
+            result += format
+                        .replace(/\$key/g, key)
+                        .replace(/\$value/g, this._data[var_name][key]);
           }
 
           this._page = this._page.replace(fors[0], result);
@@ -54,7 +56,7 @@ export default class FenixParser {
   }
 
   private nextFor() {
-    // Example: $for{names}{li}{Name: $value}
-    return this._page.match(/\$for{\s*(?<var_name>.+?)\s*}{\s*(?<tag>.+?)\s*}{\s*(?<format>.+?)\s*}/);
+    // Example: $for{names}{<li id="name$key">Name: $value<li>}
+    return this._page.match(/\$for{\s*(?<var_name>.+?)\s*}{\s*(?<format>.+?)\s*}/);
   }
 }

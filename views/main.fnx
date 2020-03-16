@@ -1,6 +1,15 @@
 <h1>$var{ msg }</h1>
-<button>$var{ click }</button>
+<button onclick="send()">$var{ click }</button>
 
 <ol>
-  $for{names}{li}{Name: $value}
+  $for{names}{<li id="name$key">ID="name$key", Name: $value</li>}
 </ol>
+
+<script>
+  function send() {
+    vscode.postMessage({
+      command: 'test',
+      text: 'Hello from Fenix webview!'
+    })
+  }
+</script>
