@@ -1,62 +1,65 @@
 import * as vscode from 'vscode';
 import { readFileSync } from 'fs';
-import { join } from 'path';
+import { join, format } from 'path';
 
 export default class FenixParser {
   private _data: any;
   private _page: string;
+  private _functions: { [key: string]: Function };
 
   constructor(extensionContext: vscode.ExtensionContext,viewName: string) {
     const viewPath = join(extensionContext.extensionPath, 'views', viewName);
     
     this._data = {};
     this._page = readFileSync(viewPath).toString();
+    this._functions = {};
+
+    this.registerIntegratedFunctions();
+  }
+
+  private registerIntegratedFunctions() {
+    this.addFunction('var', (arg: string, data: { [key: string]: any; }) => {
+      return data[arg];
+    });
+
+    this.addFunction('for', (arg: string, data: { [key: string]: any; }) => {
+      let reg = arg.match(/(?<arr_name>.+?)\((?<format>.+?)\)/);
+      if (!reg || !reg.groups || !reg.groups.arr_name || !reg.groups.format) {
+        return 'undefined';
+      }
+      let result = '';
+
+      for (let key in data[reg.groups.arr_name]) {
+        result += reg.groups.format
+                    .replace(/\$key/g, key)
+                    .replace(/\$value/g, data[reg.groups.arr_name][key]);
+      }
+        
+      return result;
+    });
   }
 
   push(key: string, value: any) {
     this._data[key] = value;
   }
 
+  addFunction(name: string, func: Function) {
+    this._functions[name] = func;
+  }
+
   render() {
-    let vars = this.nextVar();
-		while (vars !== null) {
-			if (vars.groups) {
-				this._page = this._page.replace(vars[0], this._data[vars.groups.var_name]);
-			}
-
-			vars = this.nextVar();
-    }
-
-    let fors = this.nextFor();
-    while (fors !== null) {
-      if (fors.groups) {
-        let { var_name, format } = fors.groups;
-
-        if (this._data[var_name]) {
-          let result = '';
-          for (let key in this._data[var_name]) {
-            result += format
-                        .replace(/\$key/g, key)
-                        .replace(/\$value/g, this._data[var_name][key]);
-          }
-
-          this._page = this._page.replace(fors[0], result);
-        }
+    let current = this._page.match(/\$(?<func>.+?){\s*(?<arg>.+?)\s*}/);
+    while (current !== null && current.groups) {
+      let { func, arg } = current.groups;
+      if (!func || !this._functions[func]) {
+        vscode.window.showErrorMessage(`Fenix: Function '${func}' is used but not defined`);
+        break;
       }
 
-      fors = this.nextFor();
+      this._page = this._page.replace(current[0], this._functions[func](arg, this._data));
+
+      current = this._page.match(/\$(?<func>.+?){\s*(?<arg>.+?)\s*}/);
     }
-    
     return this._page;
-  }
-
-  private nextVar() {
-    // Example: $var{hello}
-    return this._page.match(/\$var{\s*(?<var_name>.+?)\s*}/);
-  }
-
-  private nextFor() {
-    // Example: $for{names}{<li id="name$key">Name: $value<li>}
-    return this._page.match(/\$for{\s*(?<var_name>.+?)\s*}{\s*(?<format>.+?)\s*}/);
   }
 }
