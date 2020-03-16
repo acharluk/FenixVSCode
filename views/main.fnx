@@ -1,2 +1,6 @@
 <h1>$var{ msg }</h1>
 <button>$var{ click }</button>
+
+<ol>
+  $for{names}{li}{Name: $value}
+</ol>

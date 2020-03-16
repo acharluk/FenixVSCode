@@ -2,6 +2,8 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
+import FenixParser from './FenixParser';
+
 export function activate(context: vscode.ExtensionContext) {
 
 	let disposable = vscode.commands.registerCommand('fenix.helloWorld', () => {
@@ -14,33 +16,18 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		);
 
-		const nextVar = (text: string) => {
-			return text.match(/\$var{\s*(?<var_name>.+?)\s*}/);
-		};
-
-		let page = fs.readFileSync(path.join(context.extensionPath, 'views', 'main.fnx')).toString();
-		const data: any = {
-			msg: 'Hello parsed!',
-			click: 'Click me!'
-		};
-
-		let vars = nextVar(page);
-		while (vars !== null) {
-			if (vars.groups) {
-				page = page.replace(vars[0], data[vars.groups.var_name]);
-			}
-
-			vars = nextVar(page);
-		}
+		const parser = new FenixParser(context, 'main.fnx');
+		parser.push('msg', 'Hello parsed!');
+		parser.push('click', 'Click me :D');
+		parser.push('names', ['Alex', 'Francisco']);
 
 		panel.webview.html = `
 		<!DOCTYPE html>
 		<html lang="en">
 			<head>
-				<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 			</head>
 			<body>
-				${page}
+				${parser.render()}
 			</body>
 		</html>`;
 	});
