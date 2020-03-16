@@ -1,9 +1,44 @@
-<h1>$var{ msg }</h1>
-<button onclick="send()">$var{ click }</button>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="list-group bg-dark" id="list-tab" role="tablist">
+        <a class="list-group-item list-group-item-action bg-dark active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">All</a>
+        <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">C++</a>
+        <a class="list-group-item list-group-item-action bg-dark" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Lua</a>
+        <a class="list-group-item list-group-item-action bg-dark" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">JavsScript</a>
+      </div>
+    </div>
 
-<ol>
-  $for{languages(<li id="lang_$value">Key: $key, Language: $value</li>)}
-</ol>
+    <div class="col-sm">
+      <div class="list-group bg-dark">
+        <a href="#" class="list-group-item list-group-item-action active bg-dark">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Basic C++ GCC Template</h5>
+            <small class="text-muted">3K rebirths</small>
+          </div>
+          <p class="mb-1">Bootstrap code for GCC with Makefile and project structure included</p>
+          <small class="text-muted">ACharLuk</small>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-dark">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Node.js Express App</h5>
+            <small class="text-muted">1.8 rebirths</small>
+          </div>
+          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+          <small class="text-muted">Aigashu</small>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-dark">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Luna game</h5>
+            <small class="text-muted">3.14M rebirths</small>
+          </div>
+          <p class="mb-1">Create visualizations and games with Luna</p>
+          <small class="text-muted">ACharLuk</small>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   function send() {

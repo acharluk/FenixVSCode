@@ -24,7 +24,6 @@ export function activate(context: vscode.ExtensionContext) {
 		const parser = new FenixParser(context);
 		parser.push('msg', 'Hello parsed!');
 		parser.push('click', 'Click me :D');
-		parser.push('names', ['Alex', 'Francisco']);
 		parser.push('languages', ['C++', 'Lua', 'Java']);
 
 		panel.webview.html = `
