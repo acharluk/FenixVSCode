@@ -3,8 +3,17 @@
   color: var(--vscode-sideBar-foreground);
 }
 
+.list-group-item:hover {
+  background-color: var(--vscode-activityBar-background) !important;
+  color: var(--vscode-sideBar-foreground);
+}
+
 html {
   height: 100%;
+}
+
+* {
+  border-radius: 0 !important;
 }
 
 body {
@@ -28,11 +37,48 @@ body {
   color: var(--vscode-sideBar-foreground) !important;
 }
 
-.container {
+#footer-container {
   text-align: right;
   width: auto;
   max-width: 100%;
   padding: 0 15px;
+}
+
+.container {
+  width: auto;
+  max-width: 100%;
+  padding: 0 15px;
+}
+
+.list-group-item {
+  text-align: right;
+}
+
+.badge-pill {
+  border-radius: 50% !important;
+  background-color: var(--vscode-activityBar-background);
+}
+
+.list-group-title {
+  text-align: center;
+  padding: 5px;
+}
+
+.language-logo {
+  position: absolute;
+  left: 20px;
+  width: 20%;
+  height: 80px;
+  margin: 0 auto;
+}
+
+.language-name {
+  width: 100%;
+  text-align: center !important;
+}
+
+.template-rebirths {
+  width: 10em !important;
 }
 
 .container>* {

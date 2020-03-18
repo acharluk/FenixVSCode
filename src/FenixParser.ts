@@ -29,10 +29,10 @@ export default class FenixParser {
 
       for (let key in data[reg.groups.arr_name]) {
         result += reg.groups.format
-                    .replace(/\$key/g, key)
-                    .replace(/\$value/g, data[reg.groups.arr_name][key]);
+          .replace(/\$key/g, key)
+          .replace(/\$value/g, data[reg.groups.arr_name][key]);
       }
-        
+
       return result;
     });
   }
