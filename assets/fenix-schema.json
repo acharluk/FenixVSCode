@@ -1,0 +1,111 @@
+{
+    "$id": "https://raw.githubusercontent.com/acharluk/Fenix/master/assets/fenix-schema.json",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Schema for Fenix repositories",
+    "type": "object",
+    "definitions": {
+        "template": {
+            "description": "A project template",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Identifier for this template",
+                    "type": "string"
+                },
+                "displayName": {
+                    "description": "Display name for this template",
+                    "type": "string"
+                },
+                "language": {
+                    "description": "Language that this template, used for filtering",
+                    "type": "string"
+                },
+                "categories": {
+                    "description": "Categories that apply to this template, used for filtering",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "directories": {
+                    "description": "Directories that will be generated",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "files": {
+                    "description": "Files that will be used in this template, downloaded or generated",
+                    "type": "object",
+                    "properties": {
+                        "create": {
+                            "description": "Files you want to be created when template is executed",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "download": {
+                            "description": "Downloaded files, URL is generated with the prefix you specify in repoUrl",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "from": { "type": "string" },
+                                    "to"  : { "type": "string" }
+                                },
+                                "required": [ "from", "to" ],
+                                "additionalProperties": false
+                            }
+                            
+                        },
+                        "open": {
+                            "description": "Files you want to be opened when template is executed",
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "repoUrl",
+        "repoName",
+        "author"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "repoUrl": {
+            "description": "Base URL to download files from",
+            "type": "string",
+            "format": "uri"
+        },
+        "repoName": {
+            "description": "Descriptive name for the repository",
+            "type": "string"
+        },
+        "author": {
+            "description": "Author name",
+            "type": "string"
+        },
+        "version": {
+            "description": "Repository version, used for updates",
+            "type": "number"
+        },
+        "templates": {
+            "description": "Templates which this repository provides",
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/template"
+            }
+        }
+    },
+    "additionalProperties": false
+}
