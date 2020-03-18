@@ -74,13 +74,17 @@
         }
     },
     "required": [
+        "$schema",
         "repoUrl",
         "repoName",
-        "author"
+        "author",
+        "version",
+        "templates"
     ],
     "properties": {
         "$schema": {
-            "type": "string"
+            "type": "string",
+            "enum": ["https://raw.githubusercontent.com/acharluk/Fenix/master/assets/fenix-schema.json"]
         },
         "repoUrl": {
             "description": "Base URL to download files from",
