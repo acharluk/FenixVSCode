@@ -3,19 +3,23 @@
     <div class="col-sm-2-5">
       <div class="list-group bg-dark" id="list-tab" role="tablist">
         <h5 class="list-group-title">Language</h5>
-        <a class="list-group-item list-group-item-action bg-dark active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+        <a class="list-group-item list-group-item-action bg-dark active" id="list-home-list" data-toggle="list"
+          href="#list-home" role="tab" aria-controls="home">
           All
           <span class="badge badge-primary badge-pill">3</span>
         </a>
-        <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+        <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list"
+          href="#list-profile" role="tab" aria-controls="profile">
           C++
           <span class="badge badge-primary badge-pill">1</span>
         </a>
-        <a class="list-group-item list-group-item-action bg-dark" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">
+        <a class="list-group-item list-group-item-action bg-dark" id="list-messages-list" data-toggle="list"
+          href="#list-messages" role="tab" aria-controls="messages">
           Lua
           <span class="badge badge-primary badge-pill">1</span>
         </a>
-        <a class="list-group-item list-group-item-action bg-dark" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
+        <a class="list-group-item list-group-item-action bg-dark" id="list-settings-list" data-toggle="list"
+          href="#list-settings" role="tab" aria-controls="settings">
           JavsScript
           <span class="badge badge-primary badge-pill">1</span>
         </a>
@@ -24,23 +28,28 @@
       <br>
       <div class="list-group bg-dark" id="list-tab" role="tablist">
         <h5 class="list-group-title">Category</h5>
-        <a class="list-group-item list-group-item-action bg-dark active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+        <a class="list-group-item list-group-item-action bg-dark active" id="list-home-list" data-toggle="list"
+          href="#list-home" role="tab" aria-controls="home">
           All
           <span class="badge badge-primary badge-pill">3</span>
         </a>
-        <a class="list-group-item list-group-item-action bg-dark" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+        <a class="list-group-item list-group-item-action bg-dark" id="list-home-list" data-toggle="list"
+          href="#list-home" role="tab" aria-controls="home">
           Programming
           <span class="badge badge-primary badge-pill">2</span>
         </a>
-        <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+        <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list"
+          href="#list-profile" role="tab" aria-controls="profile">
           Docker
           <span class="badge badge-primary badge-pill">0</span>
         </a>
-        <a class="list-group-item list-group-item-action bg-dark" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">
+        <a class="list-group-item list-group-item-action bg-dark" id="list-messages-list" data-toggle="list"
+          href="#list-messages" role="tab" aria-controls="messages">
           Game Dev
           <span class="badge badge-primary badge-pill">1</span>
         </a>
-        <a class="list-group-item list-group-item-action bg-dark" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
+        <a class="list-group-item list-group-item-action bg-dark" id="list-settings-list" data-toggle="list"
+          href="#list-settings" role="tab" aria-controls="settings">
           Documentation
           <span class="badge badge-primary badge-pill">0</span>
         </a>
@@ -50,17 +59,17 @@
     <div class="col-sm">
       <div class="list-group bg-dark">
 
-        $for{templates(
-          <a href="#" class="list-group-item list-group-item-action bg-dark">
-            <img class="language-logo" src="$value.img" alt="">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="language-name mb-1">$value.displayName</h5>
-              <small class="template-rebirths text-muted">$value.rebirths rebirths</small>
-            </div>
-            <p class="mb-1">$value.description</p>
-            <small class="text-muted">$value.author</small>
-          </a>
-        )}
+        $for{templates ->
+        <a href="#" onclick="selectTemplate('$value.id')" class="list-group-item list-group-item-action bg-dark">
+          <img class="language-logo" src="$value.img" alt="">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="language-name mb-1">$value.displayName</h5>
+            <small class="template-rebirths text-muted">$value.rebirths rebirths</small>
+          </div>
+          <p class="mb-1">$value.description</p>
+          <small class="text-muted">$value.author</small>
+        </a>
+        }
 
       </div>
     </div>
@@ -68,11 +77,9 @@
 </div>
 
 <script>
-  function send() {
-    vscode.postMessage({
-      command: 'test',
-      text: '$var{ msg }'
-    })
+  var g_id = '';
+  function selectTemplate(id) {
+    g_id = id;
   }
 </script>
 

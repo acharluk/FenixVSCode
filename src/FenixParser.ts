@@ -21,12 +21,12 @@ export default class FenixParser {
     });
 
     this.addFunction('for', (arg: string, data: { [key: string]: any; }) => {
-      let reg = arg.match(/(?<arr_name>.+?)\((?<format>.+?)\)/m);
+      let reg = arg.match(/(?<arr_name>.+?)\s*->\s*(?<format>.+)/m);
       if (!reg || !reg.groups || !reg.groups.arr_name || !reg.groups.format) {
         return 'undefined';
       }
       let result = '';
-      
+
       for (let key in data[reg.groups.arr_name]) {
         let curr_format = reg.groups.format;
 
