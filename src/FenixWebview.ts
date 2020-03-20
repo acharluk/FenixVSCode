@@ -71,7 +71,7 @@ export default class FenixWebview {
     }
 
 
-    private getWebviewHTML() { 
+    private getWebviewHTML() {
         return `
         <!DOCTYPE html>
         <html lang="en">

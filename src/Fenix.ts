@@ -10,7 +10,6 @@ export default class Fenix {
     private _configuration: FenixConfig;
     private _repoHandler: RepoHandler;
 
-
     constructor(extensionContext: vscode.ExtensionContext) {
         this._extensionContext = extensionContext;
         this._webview = new FenixWebview(extensionContext);
@@ -20,8 +19,8 @@ export default class Fenix {
 
     show() {
         this._repoHandler.getTemplates()
-        .then(templates => {
-            this._webview.show(templates);
-        });
+            .then(templates => {
+                this._webview.show(templates);
+            });
     }
 }

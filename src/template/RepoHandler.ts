@@ -20,7 +20,7 @@ export default class RepoHandler {
                 this._templateList.push(...json.templates);
             })
         );
-        
+
         return this._templateList;
     }
 }
