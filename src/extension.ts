@@ -8,7 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const fenix = new Fenix(context);
 
-	let disposable = vscode.commands.registerCommand('fenix.helloWorld', () => {
+	let disposable = vscode.commands.registerCommand('fenix.newProject', () => {
 		fenix.show();
 	});
 

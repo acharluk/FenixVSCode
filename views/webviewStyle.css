@@ -67,7 +67,7 @@ body {
 .language-logo {
   position: absolute;
   left: 20px;
-  width: 20%;
+  max-width: 20%;
   height: 80px;
   margin: 0 auto;
 }

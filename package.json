@@ -10,14 +10,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:fenix.helloWorld"
+		"onCommand:fenix.newProject"
 	],
 	"main": "./build/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "fenix.helloWorld",
-				"title": "Hello World"
+				"command": "fenix.newProject",
+				"title": "Fenix: New project"
 			}
 		],
 		"configuration": {

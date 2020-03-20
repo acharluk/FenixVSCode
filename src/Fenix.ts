@@ -21,8 +21,7 @@ export default class Fenix {
     show() {
         this._repoHandler.getTemplates()
         .then(templates => {
-            //TODO: Pass templates to webview
-            this._webview.show();
+            this._webview.show(templates);
         });
     }
 }
