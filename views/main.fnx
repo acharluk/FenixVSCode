@@ -43,7 +43,7 @@
           <img class="language-logo" src="$value.img" alt="">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="language-name mb-1">$value.displayName</h5>
-            <small class="template-rebirths text-muted">$value.rebirths rebirths</small>
+            <small class="template-reponame text-muted">$value.repoName</small>
           </div>
           <p class="mb-1">$value.description</p>
           <small class="text-muted">$value.author</small>

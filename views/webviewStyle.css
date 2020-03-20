@@ -77,8 +77,8 @@ body {
   text-align: center !important;
 }
 
-.template-rebirths {
-  width: 10em !important;
+.template-reponame {
+  width: 20em !important;
 }
 
 .container>* {

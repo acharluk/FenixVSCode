@@ -17,11 +17,15 @@ export default class RepoHandler {
                 let remote = await fetch(repo);
                 let json = await remote.json();
 
+                // Copy extra properties from repo data to template data
+                json.templates.forEach((t: any) => {
+                    t.author = json.author;
+                    t.repoName = json.repoName;
+                });
                 this._templateList.push(...json.templates);
             })
         );
 
-        console.log(this._templateList);
         return this._templateList;
     }
 
