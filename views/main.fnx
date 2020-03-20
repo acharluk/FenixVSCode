@@ -49,34 +49,19 @@
 
     <div class="col-sm">
       <div class="list-group bg-dark">
-        <a href="#" class="list-group-item list-group-item-action active bg-dark">
-          <img class="language-logo" src="https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" alt="">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="language-name mb-1">Basic C++ GCC Template</h5>
-            <small class="template-rebirths text-muted">3K rebirths</small>
-          </div>
-          <p class="mb-1">Bootstrap code for GCC with Makefile and project structure included</p>
-          <small class="text-muted">ACharLuk</small>
-        </a>
 
-        <a href="#" class="list-group-item list-group-item-action bg-dark">
-          <img class="language-logo" src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="language-name mb-1">Node.js Express App</h5>
-            <small class="template-rebirths text-muted">1.8K rebirths</small>
-          </div>
-          <p class="mb-1">Basic Express App for backend</p>
-          <small class="text-muted">ACharLuk</small>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark">
-          <div class="d-flex w-100 justify-content-between">
-            <img class="language-logo" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Lua-logo-nolabel.svg" alt="">
-            <h5 class="language-name mb-1">Luna game</h5>
-            <small class="template-rebirths text-muted">3.14M rebirths</small>
-          </div>
-          <p class="mb-1">Create visualizations and games with Luna</p>
-          <small class="text-muted">ACharLuk</small>
-        </a>
+        $for{templates(
+          <a href="#" class="list-group-item list-group-item-action bg-dark">
+            <img class="language-logo" src="$value.img" alt="">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="language-name mb-1">$value.displayName</h5>
+              <small class="template-rebirths text-muted">$value.rebirths rebirths</small>
+            </div>
+            <p class="mb-1">$value.description</p>
+            <small class="text-muted">$value.author</small>
+          </a>
+        )}
+
       </div>
     </div>
   </div>

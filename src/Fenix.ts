@@ -25,8 +25,4 @@ export default class Fenix {
             this._webview.show();
         });
     }
-
-    test() {
-        
-    }
 }

@@ -10,7 +10,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let disposable = vscode.commands.registerCommand('fenix.helloWorld', () => {
 		fenix.show();
-		fenix.test();
 	});
 
 	context.subscriptions.push(disposable);

@@ -34,6 +34,29 @@ export default class FenixWebview {
             this._parser.push('msg', 'Hello parsed!');
             this._parser.push('click', 'Click me :D');
             this._parser.push('languages', ['C++', 'Lua', 'Java']);
+            this._parser.push('templates', [
+                {
+                    displayName: "Basic C++ GCC Template",
+                    description: "Bootstrap code for GCC with Makefile and project structure included",
+                    author: "ACharLuk",
+                    rebirths: "3K",
+                    img: "https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg"
+                },
+                {
+                    displayName: "Node.js Express App",
+                    description: "Basic Express App for backend",
+                    author: "ACharLuk",
+                    rebirths: "1.8K",
+                    img: "https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg"
+                },
+                {
+                    displayName: "Luna game",
+                    description: "Create visualizations and games with Luna",
+                    author: "ACharLuk",
+                    rebirths: "3.14M",
+                    img: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Lua-Logo.svg"
+                }
+            ]);
 
             this._webview.webview.html = this.getWebviewHTML();
 
@@ -75,7 +98,7 @@ export default class FenixWebview {
 
     private handleEvents() {
         if (!this._webview) { return; }
-        
+
         this._webview.webview.onDidReceiveMessage(
             (message) => {
                 switch (message.command) {
