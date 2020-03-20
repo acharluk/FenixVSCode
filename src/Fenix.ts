@@ -12,7 +12,7 @@ export default class Fenix {
 
     constructor(extensionContext: vscode.ExtensionContext) {
         this._extensionContext = extensionContext;
-        this._webview = new FenixWebview(extensionContext);
+        this._webview = new FenixWebview(extensionContext, this.handleEvent.bind(this));
         this._configuration = new FenixConfig();
         this._repoHandler = new RepoHandler(this._configuration);
     }
@@ -22,5 +22,16 @@ export default class Fenix {
             .then(templates => {
                 this._webview.show(templates, this._repoHandler.getLangs(), this._repoHandler.getCategories());
             });
+    }
+
+    handleEvent(event: { command: string, id: string }) {
+        switch (event.command) {
+            case 'create':
+                const rootPath = vscode.workspace.workspaceFolders
+                    ? vscode.workspace.workspaceFolders[0].uri.fsPath
+                    : '';
+                this._repoHandler.runTemplate(event.id, rootPath);
+                break;
+        }
     }
 }

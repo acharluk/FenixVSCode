@@ -9,10 +9,12 @@ export default class FenixWebview {
     private _webview: vscode.WebviewPanel | undefined;
     private _parser: FenixParser;
     private _webviewStyle: string;
+    private _eventHandler: Function;
 
-    constructor(extensionContext: vscode.ExtensionContext) {
+    constructor(extensionContext: vscode.ExtensionContext, eventHandler: Function) {
         this._extensionContext = extensionContext;
         this._parser = new FenixParser(extensionContext);
+        this._eventHandler = eventHandler;
 
         this._webviewStyle = fs.readFileSync(
             path.join(this._extensionContext.extensionPath, 'views', 'webviewStyle.css')
@@ -79,11 +81,7 @@ export default class FenixWebview {
 
         this._webview.webview.onDidReceiveMessage(
             (message) => {
-                switch (message.command) {
-                    case 'test':
-                        vscode.window.showInformationMessage(message.text);
-                        break;
-                }
+                this._eventHandler(message);
             },
             undefined,
             this._extensionContext.subscriptions

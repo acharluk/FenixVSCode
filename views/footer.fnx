@@ -14,8 +14,8 @@
 <script>
   function sendCreate() {
     vscode.postMessage({
-      command: 'test',
-      text: g_id
+      command: 'create',
+      id: g_id
     })
   }
 </script>

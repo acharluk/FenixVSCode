@@ -1,5 +1,8 @@
+import * as vscode from 'vscode';
 import FenixConfig from '../configuration/FenixConfig';
 import fetch from 'node-fetch';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export default class RepoHandler {
     _config: FenixConfig;
@@ -21,8 +24,13 @@ export default class RepoHandler {
                 json.templates.forEach((t: any) => {
                     t.author = json.author;
                     t.repoName = json.repoName;
+                    t.repoUrl = json.repoUrl;
                 });
-                this._templateList.push(...json.templates);
+                // this._templateList.push(...json.templates);
+                json.templates.forEach((t: any) => {
+                    console.log(t);
+                    this._templateList.push(t);
+                });
             })
         );
 
@@ -63,5 +71,41 @@ export default class RepoHandler {
         }
 
         return categories;
+    }
+
+    async runTemplate(templateID: string, rootPath: string) {
+        const template = this._templateList.find(t => t.id === templateID);
+        if (!template) { return; }
+
+        // Generate directories
+        template.directories?.forEach((dir: string) => {
+            const target = path.join(rootPath, dir);
+            if (!fs.existsSync(target)) {
+                fs.mkdirSync(target);
+            }
+        });
+
+        // Download files
+        if (template.files && template.files.download) {
+            await Promise.all(
+                template.files.download.map(async (file: { from: string, to: string }) => {
+                    let remote = await fetch(template.repoUrl + file.from);
+                    let data = await remote.text();
+
+                    fs.writeFileSync(path.join(rootPath, file.to), data);
+                })
+            );
+        }
+
+        // Generate blank files
+        template.files.create?.forEach((fileName: string) => {
+            fs.writeFileSync(path.join(rootPath, fileName), '');
+        });
+
+        // Open files
+        await template.files.open?.forEach(async (fileName: string) => {
+            let doc = await vscode.workspace.openTextDocument(path.join(rootPath, fileName));
+            vscode.window.showTextDocument(doc, { preview: false, viewColumn: vscode.ViewColumn.Active, preserveFocus: false });
+        });
     }
 }
