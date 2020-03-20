@@ -20,7 +20,7 @@ export default class Fenix {
     show() {
         this._repoHandler.getTemplates()
             .then(templates => {
-                this._webview.show(templates);
+                this._webview.show(templates, this._repoHandler.getLangs(), this._repoHandler.getCategories());
             });
     }
 }
