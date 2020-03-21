@@ -3,6 +3,7 @@ import FenixConfig from '../configuration/FenixConfig';
 import fetch from 'node-fetch';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
 
 export default class RepoHandler {
     _config: FenixConfig;
@@ -107,5 +108,31 @@ export default class RepoHandler {
             let doc = await vscode.workspace.openTextDocument(path.join(rootPath, fileName));
             vscode.window.showTextDocument(doc, { preview: false, viewColumn: vscode.ViewColumn.Active, preserveFocus: false });
         });
+
+        // Execute terminal commands
+        if (template.command) {
+            const term = vscode.window.createTerminal('Fenix');
+            term.show();
+            if (typeof template.command === 'string') {
+                term.sendText(template.command);
+            } else {
+                const currOS = os.type();
+                switch (currOS) {
+                    case 'Windows_NT':
+                        term.sendText(template.command.windows);
+                        break;
+                    case 'linux':
+                        term.sendText(template.command.linux);
+                        break;
+                    case 'darwin':
+                        term.sendText(template.command.macos);
+                        break;
+                    default:
+                        template.command[currOS]
+                            ? term.sendText(template.command[currOS])
+                            : vscode.window.showErrorMessage(`Command not set for OS: ${currOS}`);
+                }
+            }
+        }
     }
 }
