@@ -111,28 +111,36 @@ export default class RepoHandler {
 
         // Execute terminal commands
         if (template.command) {
-            const term = vscode.window.createTerminal('Fenix');
-            term.show();
+            let commandToRun = '';
+
             if (typeof template.command === 'string') {
-                term.sendText(template.command);
+                commandToRun = template.command;
             } else {
                 const currOS = os.type();
                 switch (currOS) {
                     case 'Windows_NT':
-                        term.sendText(template.command.windows);
+                        commandToRun = template.command.windows;
                         break;
                     case 'linux':
-                        term.sendText(template.command.linux);
+                        commandToRun = template.command.linux;
                         break;
                     case 'darwin':
-                        term.sendText(template.command.macos);
+                        commandToRun = template.command.macos;
                         break;
                     default:
                         template.command[currOS]
-                            ? term.sendText(template.command[currOS])
+                            ? commandToRun = template.command[currOS]
                             : vscode.window.showErrorMessage(`Command not set for OS: ${currOS}`);
                 }
             }
+
+            const runCommand = await this._config.canExecuteCommands(commandToRun);
+            if (!runCommand) { return; }
+
+            const term = vscode.window.createTerminal('Fenix');
+            term.sendText(commandToRun);
+            term.show();
+
         }
     }
 }

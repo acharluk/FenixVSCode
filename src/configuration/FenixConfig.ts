@@ -28,5 +28,36 @@ export default class FenixConfig {
     resetRepos() {
         vscode.workspace.getConfiguration(this._configRoot)
             .update('repos', [this._defaultRepo], vscode.ConfigurationTarget.Global);
+        vscode.workspace.getConfiguration(this._configRoot)
+            .update('runCommands', 'ask', vscode.ConfigurationTarget.Global);
+    }
+
+    async canExecuteCommands(command: string) {
+        let runCommands = vscode.workspace.getConfiguration(this._configRoot).get('runCommands', 'ask');
+        if (runCommands === 'ask') {
+            let opts: vscode.MessageItem[] = [
+                { title: 'Yes' },
+                { title: 'No' },
+                { title: 'Always' },
+                { title: 'Never' }
+            ];
+            let res = await vscode.window.showWarningMessage(`Allow Fenix to run template commands? (${command})`, {}, ...opts);
+
+            if (!res || res.title === 'No') {
+                return false;
+            }
+
+            if (res.title === 'Always') {
+                vscode.workspace.getConfiguration(this._configRoot)
+                    .update('runCommands', true, vscode.ConfigurationTarget.Global);
+            } else if (res.title === 'Never') {
+                vscode.workspace.getConfiguration(this._configRoot)
+                    .update('runCommands', false, vscode.ConfigurationTarget.Global);
+            }
+
+            return res.title === 'Yes' || res.title === 'Always';
+        } else {
+            return runCommands;
+        }
     }
 }

@@ -27,6 +27,13 @@
 				"fenix.repos": {
 					"type": "array",
 					"default": []
+				},
+				"fenix.runCommands": {
+					"enum": [
+						true,
+						false,
+						"ask"
+					]
 				}
 			}
 		}
