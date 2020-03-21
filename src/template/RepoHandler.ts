@@ -27,11 +27,7 @@ export default class RepoHandler {
                     t.repoName = json.repoName;
                     t.repoUrl = json.repoUrl;
                 });
-                // this._templateList.push(...json.templates);
-                json.templates.forEach((t: any) => {
-                    console.log(t);
-                    this._templateList.push(t);
-                });
+                this._templateList.push(...json.templates);
             })
         );
 
@@ -60,8 +56,9 @@ export default class RepoHandler {
 
         for (let categoryList of this._templateList.map(t => t.categories)) {
             categoryList.forEach((category: string[]) => {
-                if (categories.includes(categories)) {
-                    categories[categories.indexOf(category)].count++;
+                let index = categories.map(c => c.name).indexOf(category);
+                if (index !== -1) {
+                    categories[index].count++;
                 } else {
                     categories.push({
                         name: category,
