@@ -1,5 +1,9 @@
 {
 	"name": "fenix",
+	"publisher": "ACharLuk",
+	"repository": {
+		"url": "https://github.com/acharluk/Fenix"
+	},
 	"displayName": "Fenix",
 	"description": "Fenix is a powerful and easy to use project generator for Visual Studio Code",
 	"version": "1.0.0",
