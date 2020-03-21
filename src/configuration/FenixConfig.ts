@@ -32,6 +32,11 @@ export default class FenixConfig {
             .update('runCommands', 'ask', vscode.ConfigurationTarget.Global);
     }
 
+    getEnv() {
+        return vscode.workspace.getConfiguration(this._configRoot)
+            .get('env');
+    }
+
     async canExecuteCommands(command: string) {
         let runCommands = vscode.workspace.getConfiguration(this._configRoot).get('runCommands', 'ask');
         if (runCommands === 'ask') {

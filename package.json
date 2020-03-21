@@ -37,7 +37,12 @@
 						true,
 						false,
 						"ask"
-					]
+					],
+					"default": "ask"
+				},
+				"fenix.env": {
+					"type": "object",
+					"default": {}
 				}
 			}
 		}

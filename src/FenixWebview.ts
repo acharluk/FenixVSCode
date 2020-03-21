@@ -21,7 +21,7 @@ export default class FenixWebview {
         ).toString();
     }
 
-    show(templateArray: any[], languages: string[], categories: string[]) {
+    show(templateArray: any[], languages: string[], categories: string[], env: any) {
         if (!this._webview) {
             this._webview = vscode.window.createWebviewPanel(
                 'fenix',
@@ -38,6 +38,9 @@ export default class FenixWebview {
             this._parser.push('categories', categories);
             this._parser.push('categories_count', categories.length);
             this._parser.push('templates', templateArray);
+            for (let k in env) {
+                this._parser.push(`env.${k}`, env[k]);
+            }
 
             this._webview.webview.html = this.getWebviewHTML();
             this.handleEvents();
