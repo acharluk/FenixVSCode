@@ -99,6 +99,18 @@ button:hover {
   background-color: var(--vscode-button-hoverBackground);
 }
 
+a.list-group-item.list-group-item-action.bg-dark:hover {
+  background-color: var(--vscode-button-background) !important;
+}
+
+a.list-group-item.list-group-item-action.bg-dark:active {
+  background-color: var(--vscode-button-hoverBackground) !important;
+}
+
+a.list-group-item.list-group-item-action.bg-dark:hover * {
+  color: white !important;
+}
+
 h1, h2, h3, h4, h5, a, p, li {
   color: var(--vscode-editor-foreground) !important;
 }
