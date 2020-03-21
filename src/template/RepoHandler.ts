@@ -38,8 +38,9 @@ export default class RepoHandler {
         const langs: any[] = [];
 
         this._templateList.forEach(t => {
-            if (langs.includes(t.language)) {
-                langs[langs.indexOf(t.language)].count++;
+            let index = langs.map(l => l.name).indexOf(t.language);
+            if (index !== -1) {
+                langs[index].count++;
             } else {
                 langs.push({
                     name: t.language,
