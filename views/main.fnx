@@ -39,8 +39,8 @@
       <div class="list-group bg-dark">
 
         $for{templates ->
-        <a href="#" onclick="selectTemplate('$value.id')" class="list-group-item list-group-item-action bg-dark"
-          data-toggle="list">
+        <a href="#" onclick="selectTemplate('$value.id')" ondblclick="sendCreate()"
+          class="list-group-item list-group-item-action bg-dark" data-toggle="list">
           <img class="language-logo" src="$value.img" alt="">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="language-name mb-1">$value.displayName</h5>
