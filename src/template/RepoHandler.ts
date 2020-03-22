@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
+import Template from '../interfaces/Template';
 
 export default class RepoHandler {
     _config: FenixConfig;
@@ -14,7 +15,7 @@ export default class RepoHandler {
         this._templateList = [];
     }
 
-    async getTemplates() {
+    async getTemplates(): Promise<Template[]> {
         this._templateList = [];
         await Promise.all(
             this._config.getRepos().map(async (repo) => {
@@ -73,7 +74,7 @@ export default class RepoHandler {
     }
 
     async runTemplate(templateID: string, rootPath: string) {
-        const template = this._templateList.find(t => t.id === templateID);
+        const template: Template = this._templateList.find(t => t.id === templateID);
         if (!template) { return; }
 
         // Generate directories
