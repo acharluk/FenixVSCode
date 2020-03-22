@@ -12,7 +12,12 @@ export function activate(context: vscode.ExtensionContext) {
 		fenix.show();
 	});
 
+	let showRepos = vscode.commands.registerCommand('fenix.showRepos', () => {
+		fenix.showRepos();
+	});
+
 	context.subscriptions.push(disposable);
+	context.subscriptions.push(showRepos);
 }
 
 export function deactivate() { }

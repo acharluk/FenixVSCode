@@ -1,0 +1,21 @@
+<table class="table" border="1">
+    <thead>
+        <th>URL</th>
+        <th>Delete</th>
+    </thead>
+    <tbody>
+        $for{repos ->
+        <tr>
+            <td>$value</td>
+            <td><button>X</button></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    td,
+    th {
+        color: white !important;
+    }
+</style>
