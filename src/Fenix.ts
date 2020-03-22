@@ -57,12 +57,18 @@ export default class Fenix {
     }
 
     handleEvent(event: { command: string, id: string }) {
+        this._parser.clear();
+        const env = this._configuration.getEnv();
+        for (let k in env) {
+            this._parser.push(`env.${k}`, env[k]);
+        }
+
         switch (event.command) {
             case 'create':
                 const rootPath = vscode.workspace.workspaceFolders
                     ? vscode.workspace.workspaceFolders[0].uri.fsPath
                     : '';
-                this._repoHandler.runTemplate(event.id, rootPath);
+                this._repoHandler.runTemplate(event.id, rootPath, this._parser);
                 break;
         }
     }

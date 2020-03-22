@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 import Template from '../interfaces/Template';
+import FenixParser from '../FenixParser';
 
 export default class RepoHandler {
     _config: FenixConfig;
@@ -73,7 +74,7 @@ export default class RepoHandler {
         return categories;
     }
 
-    async runTemplate(templateID: string, rootPath: string) {
+    async runTemplate(templateID: string, rootPath: string, parser: FenixParser) {
         const template: Template = this._templateList.find(t => t.id === templateID);
         if (!template) { return; }
 
@@ -91,6 +92,7 @@ export default class RepoHandler {
                 template.files.download.map(async (file: { from: string, to: string }) => {
                     let remote = await fetch(template.repoUrl + file.from);
                     let data = await remote.text();
+                    data = parser.renderRaw(data, true);
 
                     fs.writeFileSync(path.join(rootPath, file.to), data);
                 })

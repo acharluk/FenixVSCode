@@ -67,8 +67,10 @@ export default class FenixParser {
     return this.renderRaw(page);
   }
 
-  renderRaw(inputStr: string): string {
-    inputStr = inputStr.replace(/\r?\n|\r/g, ' ');
+  renderRaw(inputStr: string, keepNewLines?: boolean): string {
+    if (!keepNewLines) {
+      inputStr = inputStr.replace(/\r?\n|\r/g, ' ');
+    }
     let current = inputStr.match(/\$(?<func>.+?){\s*(?<arg>.+?)\s*}/);
     while (current !== null && current.groups) {
       let { func, arg } = current.groups;
