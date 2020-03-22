@@ -32,7 +32,7 @@ export default class FenixConfig {
             .update('runCommands', 'ask', vscode.ConfigurationTarget.Global);
     }
 
-    getEnv() {
+    getEnv(): any {
         return vscode.workspace.getConfiguration(this._configRoot)
             .get('env');
     }

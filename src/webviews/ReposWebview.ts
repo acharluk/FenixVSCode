@@ -2,66 +2,41 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 
+import FenixWebview from './FenixWebview';
 import FenixParser from '../FenixParser';
 
-export default class ReposWebview {
-    private _extensionContext: vscode.ExtensionContext;
+export default class ReposWebview extends FenixWebview {
     private _webview: vscode.WebviewPanel | undefined;
     private _parser: FenixParser;
     private _webviewStyle: string;
 
     constructor(extensionContext: vscode.ExtensionContext, eventHandler: Function) {
-        this._extensionContext = extensionContext;
+        super('repos-view', 'Fenix: View repositories', extensionContext);
+
         this._parser = new FenixParser(extensionContext);
 
         this._webviewStyle = fs.readFileSync(
-            path.join(this._extensionContext.extensionPath, 'views', 'webviewStyle.css')
+            path.join(this._context.extensionPath, 'views', 'webviewStyle.css')
         ).toString();
     }
 
-    show(repos: any[], env: any) {
-        if (!this._webview) {
-            this._webview = vscode.window.createWebviewPanel(
-                'fenix',
-                'Fenix: New project',
-                vscode.ViewColumn.One,
-                {
-                    localResourceRoots: [vscode.Uri.file(path.join(this._extensionContext.extensionPath, 'views'))],
-                    enableScripts: true
-                }
-            );
-
-            this._parser.push('repos', repos);
-            for (let k in env) {
-                this._parser.push(`env.${k}`, env[k]);
-            }
-
-            this._webview.webview.html = this.getWebviewHTML();
-            // this.handleEvents();
-
-            this._webview.onDidDispose(() => this._webview = undefined);
-        } else {
-            this._webview.reveal();
-        }
-    }
-
-    private getWebviewHTML() {
+    protected html(parser: FenixParser) {
         return `
         <!DOCTYPE html>
         <html lang="en">
             <head>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
                 <style>
-                    ${this._webviewStyle}
+                    ${this.style()}
                 </style>
                 <script>
                     const vscode = acquireVsCodeApi();
                 </script>
             </head>
             <body>
-                ${this._parser.render('navbar.fnx')}
+                ${parser.render('navbar.fnx')}
                 <main>
-                    ${this._parser.render('repos.fnx')}
+                    ${parser.render('repos.fnx')}
                 </main>
 
                 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -69,5 +44,9 @@ export default class ReposWebview {
                 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
             </body>
         </html>`;
+    }
+
+    protected style() {
+        return this._webviewStyle;
     }
 }
