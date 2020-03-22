@@ -48,22 +48,26 @@ export default class FenixParser {
     });
   }
 
-  push(key: string, value: any) {
+  push(key: string, value: any): void {
     this._data[key] = value;
   }
 
-  addFunction(name: string, func: Function) {
+  clear(): void {
+    this._data = {};
+  }
+
+  addFunction(name: string, func: Function): void {
     this._functions[name] = func;
   }
 
-  render(viewName: string) {
+  render(viewName: string): string {
     const viewPath = join(this._extensionPath, 'views', viewName);
     let page = readFileSync(viewPath).toString();
 
     return this.renderRaw(page);
   }
 
-  renderRaw(inputStr: string) {
+  renderRaw(inputStr: string): string {
     inputStr = inputStr.replace(/\r?\n|\r/g, ' ');
     let current = inputStr.match(/\$(?<func>.+?){\s*(?<arg>.+?)\s*}/);
     while (current !== null && current.groups) {

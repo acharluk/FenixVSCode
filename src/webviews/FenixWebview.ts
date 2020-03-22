@@ -7,11 +7,13 @@ export default abstract class FenixWebview {
     protected _webviewName: string;
     protected _context: vscode.ExtensionContext;
     protected _webviewPanel: vscode.WebviewPanel | undefined;
+    private _eventHandler: Function;
 
-    constructor(webviewID: string, webviewName: string, context: vscode.ExtensionContext) {
+    constructor(webviewID: string, webviewName: string, context: vscode.ExtensionContext, eventHandler: Function) {
         this._webviewID = webviewID;
         this._webviewName = webviewName;
         this._context = context;
+        this._eventHandler = eventHandler;
     }
 
     createWebviewPanel(): vscode.WebviewPanel {
@@ -29,6 +31,14 @@ export default abstract class FenixWebview {
     show(parser: FenixParser): void {
         this._webviewPanel = this._webviewPanel || this.createWebviewPanel();
         this._webviewPanel.webview.html = this.html(parser);
+
+        this._webviewPanel.webview.onDidReceiveMessage(
+            (message) => {
+                this._eventHandler(message);
+            },
+            undefined,
+            this._context.subscriptions
+        );
 
         this._webviewPanel.onDidDispose(() => this._webviewPanel = undefined);
         this._webviewPanel.reveal();

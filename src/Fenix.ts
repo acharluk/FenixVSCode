@@ -1,14 +1,13 @@
 import * as vscode from 'vscode';
 
-import FenixWebview from './FenixWebview';
 import FenixConfig from './configuration/FenixConfig';
 import RepoHandler from './template/RepoHandler';
 import ReposWebview from './webviews/ReposWebview';
 import FenixParser from './FenixParser';
+import NewProjectWebview from './webviews/NewProjectWebview';
 
 export default class Fenix {
-    private _extensionContext: vscode.ExtensionContext;
-    private _webview: FenixWebview;
+    private _webviewNewProject: NewProjectWebview;
     private _webviewRepos: ReposWebview;
     private _configuration: FenixConfig;
     private _repoHandler: RepoHandler;
@@ -16,8 +15,7 @@ export default class Fenix {
     private _parser: FenixParser;
 
     constructor(extensionContext: vscode.ExtensionContext) {
-        this._extensionContext = extensionContext;
-        this._webview = new FenixWebview(extensionContext, this.handleEvent.bind(this));
+        this._webviewNewProject = new NewProjectWebview(extensionContext, this.handleEvent.bind(this));
         this._webviewRepos = new ReposWebview(extensionContext, this.handleEvent.bind(this));
         this._configuration = new FenixConfig();
         this._repoHandler = new RepoHandler(this._configuration);
@@ -28,13 +26,29 @@ export default class Fenix {
     show() {
         this._repoHandler.getTemplates()
             .then(templates => {
-                this._webview.show(templates, this._repoHandler.getLangs(), this._repoHandler.getCategories(), this._configuration.getEnv());
+                const languages = this._repoHandler.getLangs();
+                const categories = this._repoHandler.getCategories();
+                const env = this._configuration.getEnv();
+
+                this._parser.clear();
+                this._parser.push('languages', languages);
+                this._parser.push('languages_count', languages.length);
+                this._parser.push('categories', categories);
+                this._parser.push('categories_count', categories.length);
+                this._parser.push('templates', templates);
+                for (let k in env) {
+                    this._parser.push(`env.${k}`, env[k]);
+                }
+
+                this._webviewNewProject.show(this._parser);
             });
     }
 
     showRepos() {
-        this._parser.push('repos', this._configuration.getRepos());
         const env = this._configuration.getEnv();
+
+        this._parser.clear();
+        this._parser.push('repos', this._configuration.getRepos());
         for (let k in env) {
             this._parser.push(`env.${k}`, env[k]);
         }
