@@ -37,7 +37,7 @@ export default class Fenix {
                 this._parser.push('categories_count', categories.length);
                 this._parser.push('templates', templates);
                 for (let k in env) {
-                    this._parser.push(`env.${k}`, env[k]);
+                    this._parser.push(k, env[k]);
                 }
 
                 this._webviewNewProject.show(this._parser);

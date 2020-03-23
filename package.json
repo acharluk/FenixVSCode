@@ -69,6 +69,7 @@
 		"vscode-test": "^1.2.2"
 	},
 	"dependencies": {
+		"lua-in-js": "^2.2.0",
 		"node-fetch": "^2.6.0"
 	}
 }

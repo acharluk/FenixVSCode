@@ -7,7 +7,7 @@
         $for{repos ->
         <tr>
             <td>$value</td>
-            <td><button>X</button></td>
+            <td><button class="btn">X</button></td>
         </tr>
         }
     </tbody>
@@ -15,7 +15,8 @@
 
 <style>
     td,
-    th {
+    th,
+    button {
         color: white !important;
     }
 </style>

@@ -87,8 +87,8 @@ body {
 }
 
 button {
-  background-color: var(--vscode-button-background);
-  color: var(--vscode-button-foreground);
+  background-color: var(--vscode-button-background) !important;
+  color: var(--vscode-button-foreground) !important;
 
   padding: 5px;
   border: 0;

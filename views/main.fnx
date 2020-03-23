@@ -6,15 +6,32 @@
         <a class="list-group-item list-group-item-action bg-dark active" id="list-home-list" data-toggle="list"
           href="#list-home" role="tab" aria-controls="home">
           All
-          <span class="badge badge-primary badge-pill">$var{languages_count}</span>
+          <span class="badge badge-primary badge-pill"><$ fnx.render(fnx.env('languages_count')) $></span>
         </a>
-        $for{languages ->
-        <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list"
-          href="#list-profile" role="tab" aria-controls="profile">
-          $value.name
-          <span class="badge badge-primary badge-pill">$value.count</span>
+        <$ 
+        --languages = fnx.env('languages')
+        --print('Langs!')
+        --print(languages)
+
+        fnx.renderArray('languages', [[
+        <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+          %name%
+          <span class="badge badge-primary badge-pill">%count%</span>
         </a>
-        }
+      ]])
+
+        $>
+        <!-- 
+          for i, lang in ipairs(languages) do
+          print('lang: ', lang, i)
+          fnx.render([[
+            <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
+              ]] .. lang .. [[
+              <span class="badge badge-primary badge-pill">]] .. i .. [[</span>
+            </a>
+          ]])
+        end
+         -->
       </div>
 
       <br>
