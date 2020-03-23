@@ -134,7 +134,20 @@ export default class FenixParser {
         }
 
         for (let i = 0; i < arr.length; i++) {
-          sc_lua_out += format.replace(/%name%/g, arr[i].name).replace(/%count%/g, arr[i].count) + '\n';
+          let regexs = [];
+          for (let k in arr[i]) {
+            regexs.push({
+              name: k,
+              reg: new RegExp(`%${k}%`, 'g')
+            });
+          }
+
+          let curr = format;
+          regexs.forEach(r => {
+            let rep = arr ? arr[i][r.name] : 'undefined';
+            curr = curr.replace(r.reg, rep);
+          });
+          sc_lua_out += curr + '\n';
         }
       },
       env(var_name: string) {

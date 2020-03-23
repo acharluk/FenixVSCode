@@ -8,30 +8,14 @@
           All
           <span class="badge badge-primary badge-pill"><$ fnx.render(fnx.env('languages_count')) $></span>
         </a>
-        <$ 
-        --languages = fnx.env('languages')
-        --print('Langs!')
-        --print(languages)
-
-        fnx.renderArray('languages', [[
-        <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
-          %name%
-          <span class="badge badge-primary badge-pill">%count%</span>
-        </a>
-      ]])
-
-        $>
-        <!-- 
-          for i, lang in ipairs(languages) do
-          print('lang: ', lang, i)
-          fnx.render([[
+        <$
+          fnx.renderArray('languages', [[
             <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
-              ]] .. lang .. [[
-              <span class="badge badge-primary badge-pill">]] .. i .. [[</span>
+              %name%
+              <span class="badge badge-primary badge-pill">%count%</span>
             </a>
           ]])
-        end
-         -->
+        $>
       </div>
 
       <br>
@@ -40,34 +24,36 @@
         <a class="list-group-item list-group-item-action bg-dark active" id="list-home-list" data-toggle="list"
           href="#list-home" role="tab" aria-controls="home">
           All
-          <span class="badge badge-primary badge-pill">$var{categories_count}</span>
+          <span class="badge badge-primary badge-pill"><$ fnx.render(fnx.env('categories_count')) $></span>
         </a>
-        $for{categories ->
-        <a class="list-group-item list-group-item-action bg-dark" id="list-settings-list" data-toggle="list"
-          href="#list-settings" role="tab" aria-controls="settings">
-          $value.name
-          <span class="badge badge-primary badge-pill">$value.count</span>
-        </a>
-        }
+        <$
+          fnx.renderArray('categories', [[
+          <a class="list-group-item list-group-item-action bg-dark" id="list-settings-list" data-toggle="list"
+            href="#list-settings" role="tab" aria-controls="settings">
+            %name%
+            <span class="badge badge-primary badge-pill">%count%</span>
+          </a>
+          ]])
+        $>
       </div>
     </div>
 
     <div class="col-sm">
       <div class="list-group bg-dark">
-
-        $for{templates ->
-        <a href="#" onclick="selectTemplate('$value.id')" ondblclick="sendCreate()"
-          class="list-group-item list-group-item-action bg-dark" data-toggle="list">
-          <img class="language-logo" src="$value.img" alt="">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="language-name mb-1">$value.displayName</h5>
-            <small class="template-reponame text-muted">$value.repoName</small>
-          </div>
-          <p class="mb-1">$value.description</p>
-          <small class="text-muted">$value.author</small>
-        </a>
-        }
-
+        <$
+          fnx.renderArray('templates', [[
+          <a href="#" onclick="selectTemplate('%id%')" ondblclick="sendCreate()"
+            class="list-group-item list-group-item-action bg-dark" data-toggle="list">
+            <img class="language-logo" src="%img%" alt="">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="language-name mb-1">%displayName%</h5>
+              <small class="template-reponame text-muted">%repoName%</small>
+            </div>
+            <p class="mb-1">%description%</p>
+            <small class="text-muted">%author%</small>
+          </a>
+          ]])
+        $>
       </div>
     </div>
   </div>
