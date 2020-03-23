@@ -112,48 +112,38 @@ export default class FenixParser {
     let sc_lua_out = '';
 
     const fenixLib = new luajs.Table({
-      render(text: string, func?: any) {
-        if (func) {
-          let array = _lua_data[text];
+      render(var_name: string, format?: string) {
+        if (format) {
+          const arr_name = var_name;
 
-          console.log('Found array: ', array);
-          console.log('Function: ', func);
+          let arr: any[] | undefined = _lua_data[arr_name];
+          if (!arr) {
+            sc_lua_out = `Undefined array '${arr_name}'`;
+            return;
+          }
 
-          for (let elem of array) {
-            sc_lua_out += func(elem);
+          for (let i = 0; i < arr.length; i++) {
+            let regexs = [];
+            for (let k in arr[i]) {
+              regexs.push({
+                name: k,
+                reg: new RegExp(`%${k}%`, 'g')
+              });
+            }
+
+            let curr = format;
+            regexs.forEach(r => {
+              let rep = arr ? arr[i][r.name] : 'undefined';
+              curr = curr.replace(r.reg, rep);
+            });
+            sc_lua_out += curr + '\n';
           }
         } else {
-          sc_lua_out = text;
-        }
-      },
-      renderArray(arr_name: string, format: string) {
-        let arr: any[] | undefined = _lua_data[arr_name];
-        if (!arr) {
-          sc_lua_out = `Undefined array '${arr_name}'`;
-          return;
-        }
-
-        for (let i = 0; i < arr.length; i++) {
-          let regexs = [];
-          for (let k in arr[i]) {
-            regexs.push({
-              name: k,
-              reg: new RegExp(`%${k}%`, 'g')
-            });
-          }
-
-          let curr = format;
-          regexs.forEach(r => {
-            let rep = arr ? arr[i][r.name] : 'undefined';
-            curr = curr.replace(r.reg, rep);
-          });
-          sc_lua_out += curr + '\n';
+          sc_lua_out = _lua_data[var_name] || `Fenix error: Undefined variable '${var_name}'`;
         }
       },
       env(var_name: string) {
-        let ret = _lua_data[var_name];
-        console.log('Env: ', var_name, ret);
-        return ret || `Fenix error: Undefined variable '${var_name}'`;
+        return _lua_data[var_name] || `Fenix error: Undefined variable '${var_name}'`;
       }
     });
     this._lua.loadLib('fnx', fenixLib);

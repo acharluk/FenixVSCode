@@ -6,10 +6,10 @@
         <a class="list-group-item list-group-item-action bg-dark active" id="list-home-list" data-toggle="list"
           href="#list-home" role="tab" aria-controls="home">
           All
-          <span class="badge badge-primary badge-pill"><$ fnx.render(fnx.env('languages_count')) $></span>
+          <span class="badge badge-primary badge-pill"><$ fnx.render('languages_count') $></span>
         </a>
         <$
-          fnx.renderArray('languages', [[
+          fnx.render('languages', [[
             <a class="list-group-item list-group-item-action bg-dark" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">
               %name%
               <span class="badge badge-primary badge-pill">%count%</span>
@@ -24,10 +24,10 @@
         <a class="list-group-item list-group-item-action bg-dark active" id="list-home-list" data-toggle="list"
           href="#list-home" role="tab" aria-controls="home">
           All
-          <span class="badge badge-primary badge-pill"><$ fnx.render(fnx.env('categories_count')) $></span>
+          <span class="badge badge-primary badge-pill"><$ fnx.render('categories_count') $></span>
         </a>
         <$
-          fnx.renderArray('categories', [[
+          fnx.render('categories', [[
           <a class="list-group-item list-group-item-action bg-dark" id="list-settings-list" data-toggle="list"
             href="#list-settings" role="tab" aria-controls="settings">
             %name%
@@ -41,7 +41,7 @@
     <div class="col-sm">
       <div class="list-group bg-dark">
         <$
-          fnx.renderArray('templates', [[
+          fnx.render('templates', [[
           <a href="#" onclick="selectTemplate('%id%')" ondblclick="sendCreate()"
             class="list-group-item list-group-item-action bg-dark" data-toggle="list">
             <img class="language-logo" src="%img%" alt="">
