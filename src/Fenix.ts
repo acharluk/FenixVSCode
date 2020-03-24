@@ -50,7 +50,7 @@ export default class Fenix {
         this._parser.clear();
         this._parser.push('repos', this._configuration.getRepos());
         for (let k in env) {
-            this._parser.push(`env.${k}`, env[k]);
+            this._parser.push(k, env[k]);
         }
 
         this._webviewRepos.show(this._parser);
@@ -60,7 +60,7 @@ export default class Fenix {
         this._parser.clear();
         const env = this._configuration.getEnv();
         for (let k in env) {
-            this._parser.push(`env.${k}`, env[k]);
+            this._parser.push(k, env[k]);
         }
 
         switch (event.command) {

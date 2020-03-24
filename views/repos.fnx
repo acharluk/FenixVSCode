@@ -1,22 +1,24 @@
 <table class="table" border="1">
-    <thead>
-        <th>URL</th>
-        <th>Delete</th>
-    </thead>
-    <tbody>
-        $for{repos ->
+  <thead>
+    <th>URL</th>
+    <th>Delete</th>
+  </thead>
+  <tbody>
+    <$
+      fnx.render('repos', [[
         <tr>
-            <td>$value</td>
-            <td><button class="btn">X</button></td>
+          <td>%value%</td>
+          <td><button class="btn">X</button></td>
         </tr>
-        }
-    </tbody>
+      ]])
+    $>
+  </tbody>
 </table>
 
 <style>
-    td,
-    th,
-    button {
-        color: white !important;
-    }
+  td,
+  th,
+  button {
+    color: white !important;
+  }
 </style>

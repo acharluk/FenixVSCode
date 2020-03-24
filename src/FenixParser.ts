@@ -17,58 +17,6 @@ export default class FenixParser {
     this._functions = {};
     this._lua = luajs.createEnv();
     this._lua_out = '';
-
-    // this.registerIntegratedFunctions();
-  }
-
-  private registerIntegratedFunctions() {
-    // this.addFunction('var', (arg: string, data: { [key: string]: any; }) => {
-    //   return data[arg];
-    // });
-
-    // this.addFunction('for', (arg: string, data: { [key: string]: any; }) => {
-    //   let reg = arg.match(/(?<arr_name>.+?)\s*->\s*(?<format>.+)/m);
-    //   if (!reg || !reg.groups || !reg.groups.arr_name || !reg.groups.format) {
-    //     return 'undefined';
-    //   }
-    //   let result = '';
-
-    //   for (let key in data[reg.groups.arr_name]) {
-    //     let curr_format = reg.groups.format;
-
-    //     // Access object properties inside arrays
-    //     let var_name = curr_format.match(/\$value\.(?<var_name>[a-zA-Z]+)/)?.groups?.var_name;
-    //     while (var_name) {
-    //       let value = data[reg.groups.arr_name][key][var_name];
-    //       curr_format = curr_format.replace(`$value.${var_name}`, value);
-
-    //       var_name = curr_format.match(/\$value\.(?<var_name>[a-zA-Z]+)/)?.groups?.var_name;
-    //     }
-
-    //     result += curr_format
-    //       .replace(/\$key/g, key)
-    //       .replace(/\$value/g, data[reg.groups.arr_name][key]);
-    //   }
-
-    //   return result;
-    // });
-
-    this.addFunction('render', (text: string, func?: any) => {
-      if (func) {
-        let array = this._data[text];
-        console.log('Found array: ', array);
-        console.log('Function: ', func);
-        array.forEach((elem: any) => {
-          this._lua_out += func(elem);
-        });
-      } else {
-        this._lua_out = text;
-      }
-    });
-
-    this.addFunction('env', (var_name: string) => {
-      return this._data[var_name] || `Fenix error: Undefined variable '${var_name}'`;
-    });
   }
 
   push(key: string, value: any): void {
@@ -90,9 +38,10 @@ export default class FenixParser {
     return this.renderRaw(page);
   }
 
-  renderRaw(inputStr: string, keepNewLines?: boolean): string {
+  renderRaw(inputStr: string): string {
     const _lua_data = this._data;
     let sc_lua_out = '';
+    console.log('Called renderRaw', _lua_data);
 
     function superRender(something: any, format?: string) {
       format = format || '%value%';
@@ -118,9 +67,9 @@ export default class FenixParser {
               sc_lua_out += ret;
           }
       } else {
-          sc_lua_out = format.replace(/%value%/g, something);
+          sc_lua_out += format.replace(/%value%/g, something);
       }
-  }
+    }
 
     const fenixLib = new luajs.Table({
       render(var_name: string, format?: string) {

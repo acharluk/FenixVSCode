@@ -92,7 +92,7 @@ export default class RepoHandler {
                 template.files.download.map(async (file: { from: string, to: string }) => {
                     let remote = await fetch(template.repoUrl + file.from);
                     let data = await remote.text();
-                    data = parser.renderRaw(data, true);
+                    data = parser.renderRaw(data);
 
                     fs.writeFileSync(path.join(rootPath, file.to), data);
                 })
