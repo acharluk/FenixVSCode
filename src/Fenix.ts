@@ -2,21 +2,18 @@ import * as vscode from 'vscode';
 
 import FenixConfig from './configuration/FenixConfig';
 import RepoHandler from './template/RepoHandler';
-import ReposWebview from './webviews/ReposWebview';
+import FenixWebview from './webviews/FenixWebview';
 import FenixParser from './FenixParser';
-import NewProjectWebview from './webviews/NewProjectWebview';
 
 export default class Fenix {
-    private _webviewNewProject: NewProjectWebview;
-    private _webviewRepos: ReposWebview;
+    private _webview: FenixWebview;
     private _configuration: FenixConfig;
     private _repoHandler: RepoHandler;
 
     private _parser: FenixParser;
 
     constructor(extensionContext: vscode.ExtensionContext) {
-        this._webviewNewProject = new NewProjectWebview(extensionContext, this.handleEvent.bind(this));
-        this._webviewRepos = new ReposWebview(extensionContext, this.handleEvent.bind(this));
+        this._webview = new FenixWebview(extensionContext, this.handleEvent.bind(this));
         this._configuration = new FenixConfig();
         this._repoHandler = new RepoHandler(this._configuration);
 
@@ -40,7 +37,7 @@ export default class Fenix {
                     this._parser.push(k, env[k]);
                 }
 
-                this._webviewNewProject.show(this._parser);
+                this._webview.show('main', this._parser);
             });
     }
 
@@ -53,7 +50,7 @@ export default class Fenix {
             this._parser.push(k, env[k]);
         }
 
-        this._webviewRepos.show(this._parser);
+        this._webview.show('repos', this._parser);
     }
 
     handleEvent(event: { command: string, id: string }) {

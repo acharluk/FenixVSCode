@@ -17,7 +17,10 @@ export default class RepoHandler {
     }
 
     async getTemplates(): Promise<Template[]> {
-        this._templateList = [];
+        if (this._templateList.length > 0) {
+            return this._templateList;
+        }
+        
         await Promise.all(
             this._config.getRepos().map(async (repo) => {
                 let remote = await fetch(repo);
