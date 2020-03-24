@@ -9,7 +9,7 @@ import FenixParser from '../FenixParser';
 
 export default class RepoHandler {
     _config: FenixConfig;
-    _templateList: any[]; //TODO: Template[]
+    _templateList: Template[];
 
     constructor(config: FenixConfig) {
         this._config = config;
@@ -58,7 +58,7 @@ export default class RepoHandler {
         const categories: any[] = [];
 
         for (let categoryList of this._templateList.map(t => t.categories)) {
-            categoryList.forEach((category: string[]) => {
+            categoryList.forEach((category) => {
                 let index = categories.map(c => c.name).indexOf(category);
                 if (index !== -1) {
                     categories[index].count++;
@@ -75,7 +75,7 @@ export default class RepoHandler {
     }
 
     async runTemplate(templateID: string, rootPath: string, parser: FenixParser) {
-        const template: Template = this._templateList.find(t => t.id === templateID);
+        const template = this._templateList.find(t => t.id === templateID);
         if (!template) { return; }
 
         // Generate directories
