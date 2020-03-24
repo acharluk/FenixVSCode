@@ -70,6 +70,14 @@ export default class Fenix {
                     : '';
                 this._repoHandler.runTemplate(event.id, rootPath, this._parser);
                 break;
+            case 'viewNew':
+                    this.show();
+                    break;
+            case 'viewRepos':
+                this.showRepos();
+                break;
+            default:
+                vscode.window.showErrorMessage(`Fenix error: Error handling event '${event.command}'`);
         }
     }
 }

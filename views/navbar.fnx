@@ -8,9 +8,16 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <!-- <a class="nav-link" href="#">
-          <$ fnx.render('author') $><span class="sr-only">(current)</span>
-        </a> -->
+        <a class="nav-link" href="#" onclick="vscode.postMessage({command: 'viewNew'})">
+          New
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+
+      <li>
+        <a class="nav-link" href="#" onclick="vscode.postMessage({command: 'viewRepos'})">
+          View repositories
+        </a>
       </li>
 
       <!-- <li class="nav-item dropdown">

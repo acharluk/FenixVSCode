@@ -41,7 +41,6 @@ export default class FenixParser {
   renderRaw(inputStr: string): string {
     const _lua_data = this._data;
     let sc_lua_out = '';
-    console.log('Called renderRaw', _lua_data);
 
     function superRender(something: any, format?: string) {
       format = format || '%value%';
