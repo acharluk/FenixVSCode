@@ -29,17 +29,21 @@ export default class RepoHandler {
 
         await Promise.all(
             this._config.getRepos().map(async (repo) => {
-                let remote = await fetch(repo);
-                let json = await remote.json();
-
-                // Copy extra properties from repo data to template data
-                json.templates.forEach((t: any) => {
-                    t.author = json.author;
-                    t.repoName = json.repoName;
-                    t.repoUrl = json.repoUrl;
-                });
-
-                templates.push(...json.templates);
+                try {
+                    let remote = await fetch(repo);
+                    let json = await remote.json();
+                    
+                    // Copy extra properties from repo data to template data
+                    json.templates.forEach((t: any) => {
+                        t.author = json.author;
+                        t.repoName = json.repoName;
+                        t.repoUrl = json.repoUrl;
+                    });
+                    
+                    templates.push(...json.templates);
+                } catch (e) {
+                    vscode.window.showErrorMessage(`[Fenix] Could not fetch repo: ${repo}`);
+                }
             })
         );
 

@@ -72,7 +72,7 @@ export default class FenixParser {
 
     const fenixLib = new luajs.Table({
       render(var_name: string, format?: string) {
-        superRender(_lua_data[var_name] || `Fenix error: Undefined variable '${var_name}'`, format);
+        superRender(_lua_data[var_name] !== undefined ? _lua_data[var_name] : `Fenix error: Undefined variable '${var_name}'`, format);
       },
       env(var_name: string) {
         return _lua_data[var_name] || `Fenix error: Undefined variable '${var_name}'`;
