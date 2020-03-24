@@ -20,8 +20,8 @@ export default class Fenix {
         this._parser = new FenixParser(extensionContext);
     }
 
-    show() {
-        this._repoHandler.getTemplates()
+    show(forceRefresh?: boolean) {
+        this._repoHandler.getTemplates(forceRefresh)
             .then(templates => {
                 const languages = this._repoHandler.getLangs();
                 const categories = this._repoHandler.getCategories();
@@ -71,8 +71,7 @@ export default class Fenix {
                 this.show();
                 break;
             case 'refreshNew':
-                this._repoHandler.refreshTemplates()
-                    .then(() => this.show());
+                this.show(true);
                 break;
             case 'viewRepos':
                 this.showRepos();

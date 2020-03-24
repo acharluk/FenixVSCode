@@ -16,8 +16,8 @@ export default class RepoHandler {
         this._templateList = [];
     }
 
-    async getTemplates(): Promise<Template[]> {
-        if (this._templateList.length === 0) {
+    async getTemplates(forceRefresh?: boolean): Promise<Template[]> {
+        if (this._templateList.length === 0 || forceRefresh) {
             this._templateList = await this.refreshTemplates();
         }
 
