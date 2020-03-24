@@ -17,10 +17,16 @@ export default class RepoHandler {
     }
 
     async getTemplates(): Promise<Template[]> {
-        if (this._templateList.length > 0) {
-            return this._templateList;
+        if (this._templateList.length === 0) {
+            this._templateList = await this.refreshTemplates();
         }
-        
+
+        return this._templateList;
+    }
+
+    async refreshTemplates(): Promise<Template[]> {
+        const templates: Template[] = [];
+
         await Promise.all(
             this._config.getRepos().map(async (repo) => {
                 let remote = await fetch(repo);
@@ -32,11 +38,12 @@ export default class RepoHandler {
                     t.repoName = json.repoName;
                     t.repoUrl = json.repoUrl;
                 });
-                this._templateList.push(...json.templates);
+
+                templates.push(...json.templates);
             })
         );
 
-        return this._templateList;
+        return templates;
     }
 
     getLangs() {

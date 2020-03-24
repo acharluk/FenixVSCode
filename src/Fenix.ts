@@ -68,8 +68,12 @@ export default class Fenix {
                 this._repoHandler.runTemplate(event.id, rootPath, this._parser);
                 break;
             case 'viewNew':
-                    this.show();
-                    break;
+                this.show();
+                break;
+            case 'refreshNew':
+                this._repoHandler.refreshTemplates()
+                    .then(() => this.show());
+                break;
             case 'viewRepos':
                 this.showRepos();
                 break;

@@ -13,7 +13,11 @@
           <span class="sr-only">(current)</span>
         </a>
       </li>
-
+      <li>
+        <a class="nav-link" href="#" onclick="vscode.postMessage({command: 'refreshNew'})">
+          Refresh
+        </a>
+      </li>
       <li>
         <a class="nav-link" href="#" onclick="vscode.postMessage({command: 'viewRepos'})">
           View repositories
