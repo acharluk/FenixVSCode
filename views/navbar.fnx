@@ -40,5 +40,24 @@
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     </form>
+    <div id="footer-container">
+      <button id="create-button" onclick="sendCreate()">Create</button>
+    </div>
   </div>
 </nav>
+
+<style>
+  #create-button {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+</style>
+
+<script>
+  function sendCreate() {
+    vscode.postMessage({
+      command: 'create',
+      id: g_id
+    })
+  }
+</script>
