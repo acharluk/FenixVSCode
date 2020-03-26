@@ -23,6 +23,10 @@ export default class FenixParser {
     this._data[key] = value;
   }
 
+  gett(keyy: string) {
+    return this._data[keyy];
+  }
+
   clear(): void {
     this._data = {};
   }

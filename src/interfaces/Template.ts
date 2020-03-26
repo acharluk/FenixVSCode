@@ -17,8 +17,15 @@ export default interface Template {
         macos: string;
         [os_name: string]: string;
     };
+    vars?: {
+        [var_name: string]: {
+            title: string;
+            description?: string;
+        }
+    };
 
     repoName?: string;
     repoUrl?: string;
     author?: string;
+    hasForm?: string;
 }

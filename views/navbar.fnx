@@ -42,6 +42,7 @@
     </form>
     <div id="footer-container">
       <button id="create-button" onclick="sendCreate()">Create</button>
+      <!-- <$ fnx.render('createText') $> -->
     </div>
   </div>
 </nav>
@@ -50,6 +51,7 @@
   #create-button {
     padding-left: 20px;
     padding-right: 20px;
+    width: 5em;
   }
 </style>
 

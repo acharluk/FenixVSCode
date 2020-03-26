@@ -34,10 +34,11 @@ export default class RepoHandler {
                     let json = await remote.json();
                     
                     // Copy extra properties from repo data to template data
-                    json.templates.forEach((t: any) => {
+                    json.templates.forEach((t: Template) => {
                         t.author = json.author;
                         t.repoName = json.repoName;
                         t.repoUrl = json.repoUrl;
+                        t.hasForm = t.vars ? "true" : "false";
                     });
                     
                     templates.push(...json.templates);

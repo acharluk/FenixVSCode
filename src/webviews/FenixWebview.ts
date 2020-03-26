@@ -22,7 +22,8 @@ export default class FenixWebview {
 
         this._views = {
             main: 'main.fnx',
-            repos: 'repos.fnx'
+            repos: 'repos.fnx',
+            form: 'form.fnx'
         };
         this._currentView = 'main';
     }

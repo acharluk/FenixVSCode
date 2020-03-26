@@ -4,11 +4,13 @@ import FenixConfig from './configuration/FenixConfig';
 import RepoHandler from './template/RepoHandler';
 import FenixWebview from './webviews/FenixWebview';
 import FenixParser from './FenixParser';
+import Template from './interfaces/Template';
 
 export default class Fenix {
     private _webview: FenixWebview;
     private _configuration: FenixConfig;
     private _repoHandler: RepoHandler;
+    private _selectedTemplateID: string | undefined;
 
     private _parser: FenixParser;
 
@@ -54,7 +56,8 @@ export default class Fenix {
     }
 
     handleEvent(event: { command: string, id: string }) {
-        this._parser.clear();
+        const templates: any =  this._parser.gett('templates');
+        // this._parser.clear();
         const env = this._configuration.getEnv();
         for (let k in env) {
             this._parser.push(k, env[k]);
@@ -62,10 +65,21 @@ export default class Fenix {
 
         switch (event.command) {
             case 'create':
-                const rootPath = vscode.workspace.workspaceFolders
-                    ? vscode.workspace.workspaceFolders[0].uri.fsPath
-                    : '';
-                this._repoHandler.runTemplate(event.id, rootPath, this._parser);
+                if (!event.id && this._selectedTemplateID) {
+                    const rootPath = vscode.workspace.workspaceFolders
+                        ? vscode.workspace.workspaceFolders[0].uri.fsPath
+                        : '';
+                    this._repoHandler.runTemplate(this._selectedTemplateID, rootPath, this._parser);
+                } else {
+                    this._selectedTemplateID = event.id;
+                    let t = templates.find((t: Template) => t.id === this._selectedTemplateID);
+                    if (t && t.vars) {
+                        const tt = t.vars.map((v: any[]) => [...v]);
+                        this._parser.push('vars', tt);
+                    }
+                    this._parser.push('createText', 'Create');
+                    this._webview.show('form', this._parser);
+                }
                 break;
             case 'viewNew':
                 this.show();

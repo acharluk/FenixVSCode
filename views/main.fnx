@@ -45,7 +45,7 @@
     <div class="col-sm">
       <div class="list-group bg-dark">
         <$ fnx.render('templates', [[
-            <a href="#" onclick="selectTemplate('%id%')" ondblclick="sendCreate()"
+            <a href="#" id="template-%id%" hasform="%hasForm%" onclick="selectTemplate('%id%')" ondblclick="sendCreate()"
               class="list-group-item list-group-item-action bg-dark" data-toggle="list">
               <img class="language-logo" src="%img%" alt="">
               <div class="d-flex w-100 justify-content-between">
@@ -66,6 +66,11 @@
   var g_id = 'null';
   function selectTemplate(id) {
     g_id = id;
+    if ($(`#template-${g_id}`).attr('hasform') === "true") {
+      $('#create-button').text('Next');
+    } else {
+      $('#create-button').text('Create');
+    }
   }
 </script>
 
