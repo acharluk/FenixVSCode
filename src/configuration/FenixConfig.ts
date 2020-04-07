@@ -45,8 +45,7 @@ export default class FenixConfig {
     }
 
     getEnv(): any {
-        return vscode.workspace.getConfiguration(this._configRoot)
-            .get('env');
+        return vscode.workspace.getConfiguration(this._configRoot).get('env');
     }
 
     async canExecuteCommands(command: string) {

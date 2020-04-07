@@ -24,7 +24,7 @@ export default class Fenix {
     }
 
     private constructor(extensionContext: vscode.ExtensionContext) {
-        this._webview = new FenixWebview(extensionContext, this.handleEvent.bind(this));
+        this._webview = new FenixWebview(extensionContext);
         this._repoHandler = new RepoHandler();
     }
 
@@ -33,7 +33,6 @@ export default class Fenix {
             .then(templates => {
                 const languages = this._repoHandler.getLangs();
                 const categories = this._repoHandler.getCategories();
-                const env = FenixConfig.get().getEnv();
 
                 FenixParser.get().clear();
                 FenixParser.get().push('languages', languages);
@@ -42,33 +41,23 @@ export default class Fenix {
                 FenixParser.get().push('categories_count', categories.length);
                 FenixParser.get().push('templates', templates);
                 FenixParser.get().push('repos', FenixConfig.get().getRepos());
-                for (let k in env) {
-                    FenixParser.get().push(k, env[k]);
-                }
+                FenixParser.get().pushEnv();
 
                 this._webview.show('main', FenixParser.get());
             });
     }
 
     showRepos() {
-        const env = FenixConfig.get().getEnv();
-
         FenixParser.get().clear();
         FenixParser.get().push('repos', FenixConfig.get().getRepos());
-        for (let k in env) {
-            FenixParser.get().push(k, env[k]);
-        }
+        FenixParser.get().pushEnv();
 
         this._webview.show('repos', FenixParser.get());
     }
 
-    handleEvent(event: { command: string, id: string }) {
-        const templates: any =  FenixParser.get().gett('templates');
-        
-        const env = FenixConfig.get().getEnv();
-        for (let k in env) {
-            FenixParser.get().push(k, env[k]);
-        }
+    handleWebviewEvent(event: { command: string, id: string }) {
+        const templates: any =  FenixParser.get().get('templates');
+        FenixParser.get().pushEnv();
 
         switch (event.command) {
             case 'create': {

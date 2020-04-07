@@ -118,7 +118,7 @@ export default class RepoHandler {
         });
 
         // Open files
-        await template.files.open?.forEach(async (fileName: string) => {
+        template.files.open?.forEach(async (fileName: string) => {
             let doc = await vscode.workspace.openTextDocument(path.join(rootPath, fileName));
             vscode.window.showTextDocument(doc, { preview: false, viewColumn: vscode.ViewColumn.Active, preserveFocus: false });
         });

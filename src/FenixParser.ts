@@ -1,15 +1,14 @@
 import * as vscode from 'vscode';
 import { readFileSync } from 'fs';
 import { join, format } from 'path';
+import FenixConfig from './configuration/FenixConfig';
 
 import * as luajs from 'lua-in-js';
 
 export default class FenixParser {
   private _extensionPath: string;
   private _data: any;
-  private _functions: { [key: string]: Function };
   private _lua: any;
-  private _lua_out: string;
 
   private static __instance: FenixParser;
     static init(extensionContext: vscode.ExtensionContext): FenixParser {
@@ -26,25 +25,26 @@ export default class FenixParser {
   private constructor(extensionContext: vscode.ExtensionContext) {
     this._extensionPath = extensionContext.extensionPath;
     this._data = {};
-    this._functions = {};
     this._lua = luajs.createEnv();
-    this._lua_out = '';
+  }
+
+  pushEnv() {
+    const env = FenixConfig.get().getEnv();
+    for (let k in env) {
+      this.push(k, env[k]);
+    }
   }
 
   push(key: string, value: any): void {
     this._data[key] = value;
   }
 
-  gett(keyy: string) {
+  get(keyy: string) {
     return this._data[keyy];
   }
 
   clear(): void {
     this._data = {};
-  }
-
-  addFunction(name: string, func: Function): void {
-    this._functions[name] = func;
   }
 
   render(viewName: string): string {
