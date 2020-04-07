@@ -4,7 +4,19 @@ export default class FenixConfig {
     private _configRoot: string = "fenix";
     private _defaultRepo: string = "https://raw.githubusercontent.com/acharluk/FenixDefaultTemplates/master/fenix.json";
 
-    constructor() {
+    private static __instance: FenixConfig;
+    static init(): FenixConfig {
+        if (!this.__instance) {
+            this.__instance = new FenixConfig();
+        }
+        return this.__instance;
+    }
+
+    static get(): FenixConfig {
+        return this.__instance;
+    }
+
+    private constructor() {
         let currentRepos: string[] | undefined = vscode.workspace.getConfiguration(this._configRoot).get('repos');
 
         // Create config in settings.json if it's empty

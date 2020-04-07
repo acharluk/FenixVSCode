@@ -8,11 +8,9 @@ import Template from '../interfaces/Template';
 import FenixParser from '../FenixParser';
 
 export default class RepoHandler {
-    _config: FenixConfig;
     _templateList: Template[];
 
-    constructor(config: FenixConfig) {
-        this._config = config;
+    constructor() {
         this._templateList = [];
     }
 
@@ -28,7 +26,7 @@ export default class RepoHandler {
         const templates: Template[] = [];
 
         await Promise.all(
-            this._config.getRepos().map(async (repo) => {
+            FenixConfig.get().getRepos().map(async (repo) => {
                 try {
                     let remote = await fetch(repo);
                     let json = await remote.json();
@@ -89,7 +87,7 @@ export default class RepoHandler {
         return categories;
     }
 
-    async runTemplate(templateID: string, rootPath: string, parser: FenixParser) {
+    async runTemplate(templateID: string, rootPath: string) {
         const template = this._templateList.find(t => t.id === templateID);
         if (!template) { return; }
 
@@ -107,7 +105,7 @@ export default class RepoHandler {
                 template.files.download.map(async (file: { from: string, to: string }) => {
                     let remote = await fetch(template.repoUrl + file.from);
                     let data = await remote.text();
-                    data = parser.renderRaw(data);
+                    data = FenixParser.get().renderRaw(data);
 
                     fs.writeFileSync(path.join(rootPath, file.to), data);
                 })
@@ -150,7 +148,7 @@ export default class RepoHandler {
                 }
             }
 
-            const runCommand = await this._config.canExecuteCommands(commandToRun);
+            const runCommand = await FenixConfig.get().canExecuteCommands(commandToRun);
             if (!runCommand) { return; }
 
             const term = vscode.window.createTerminal('Fenix');

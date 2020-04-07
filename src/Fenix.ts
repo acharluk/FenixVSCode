@@ -8,18 +8,24 @@ import Template from './interfaces/Template';
 
 export default class Fenix {
     private _webview: FenixWebview;
-    private _configuration: FenixConfig;
     private _repoHandler: RepoHandler;
     private _selectedTemplateID: string | undefined;
 
-    private _parser: FenixParser;
+    private static __instance: Fenix;
+    static init(extensionContext: vscode.ExtensionContext): Fenix {
+        if (!this.__instance) {
+            this.__instance = new Fenix(extensionContext);
+        }
+        return this.__instance;
+    }
 
-    constructor(extensionContext: vscode.ExtensionContext) {
+    static get(): Fenix {
+        return this.__instance;
+    }
+
+    private constructor(extensionContext: vscode.ExtensionContext) {
         this._webview = new FenixWebview(extensionContext, this.handleEvent.bind(this));
-        this._configuration = new FenixConfig();
-        this._repoHandler = new RepoHandler(this._configuration);
-
-        this._parser = new FenixParser(extensionContext);
+        this._repoHandler = new RepoHandler();
     }
 
     show(forceRefresh?: boolean) {
@@ -27,60 +33,62 @@ export default class Fenix {
             .then(templates => {
                 const languages = this._repoHandler.getLangs();
                 const categories = this._repoHandler.getCategories();
-                const env = this._configuration.getEnv();
+                const env = FenixConfig.get().getEnv();
 
-                this._parser.clear();
-                this._parser.push('languages', languages);
-                this._parser.push('languages_count', languages.length);
-                this._parser.push('categories', categories);
-                this._parser.push('categories_count', categories.length);
-                this._parser.push('templates', templates);
+                FenixParser.get().clear();
+                FenixParser.get().push('languages', languages);
+                FenixParser.get().push('languages_count', languages.length);
+                FenixParser.get().push('categories', categories);
+                FenixParser.get().push('categories_count', categories.length);
+                FenixParser.get().push('templates', templates);
+                FenixParser.get().push('repos', FenixConfig.get().getRepos());
                 for (let k in env) {
-                    this._parser.push(k, env[k]);
+                    FenixParser.get().push(k, env[k]);
                 }
 
-                this._webview.show('main', this._parser);
+                this._webview.show('main', FenixParser.get());
             });
     }
 
     showRepos() {
-        const env = this._configuration.getEnv();
+        const env = FenixConfig.get().getEnv();
 
-        this._parser.clear();
-        this._parser.push('repos', this._configuration.getRepos());
+        FenixParser.get().clear();
+        FenixParser.get().push('repos', FenixConfig.get().getRepos());
         for (let k in env) {
-            this._parser.push(k, env[k]);
+            FenixParser.get().push(k, env[k]);
         }
 
-        this._webview.show('repos', this._parser);
+        this._webview.show('repos', FenixParser.get());
     }
 
     handleEvent(event: { command: string, id: string }) {
-        const templates: any =  this._parser.gett('templates');
-        // this._parser.clear();
-        const env = this._configuration.getEnv();
+        const templates: any =  FenixParser.get().gett('templates');
+        
+        const env = FenixConfig.get().getEnv();
         for (let k in env) {
-            this._parser.push(k, env[k]);
+            FenixParser.get().push(k, env[k]);
         }
 
         switch (event.command) {
-            case 'create':
-                if (!event.id && this._selectedTemplateID) {
+            case 'create': {
+                if (this._selectedTemplateID) {
                     const rootPath = vscode.workspace.workspaceFolders
-                        ? vscode.workspace.workspaceFolders[0].uri.fsPath
-                        : '';
-                    this._repoHandler.runTemplate(this._selectedTemplateID, rootPath, this._parser);
+                    ? vscode.workspace.workspaceFolders[0].uri.fsPath
+                    : '';
+                    this._repoHandler.runTemplate(this._selectedTemplateID, rootPath);
                 } else {
                     this._selectedTemplateID = event.id;
                     let t = templates.find((t: Template) => t.id === this._selectedTemplateID);
                     if (t && t.vars) {
                         const tt = t.vars.map((v: any[]) => [...v]);
-                        this._parser.push('vars', tt);
+                        FenixParser.get().push('vars', tt);
                     }
-                    this._parser.push('createText', 'Create');
-                    this._webview.show('form', this._parser);
+                    FenixParser.get().push('createText', 'Create');
+                    this._webview.show('form', FenixParser.get());
                 }
                 break;
+            }
             case 'viewNew':
                 this.show();
                 break;

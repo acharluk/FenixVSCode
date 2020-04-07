@@ -1,19 +1,20 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
-
 import Fenix from './Fenix';
+import FenixParser from './FenixParser';
+import FenixConfig from './configuration/FenixConfig';
 
 export function activate(context: vscode.ExtensionContext) {
 
-	const fenix = new Fenix(context);
+	FenixConfig.init();
+	FenixParser.init(context);
+	Fenix.init(context);
 
 	let disposable = vscode.commands.registerCommand('fenix.newProject', () => {
-		fenix.show();
+		Fenix.get().show();
 	});
 
 	let showRepos = vscode.commands.registerCommand('fenix.showRepos', () => {
-		fenix.showRepos();
+		Fenix.get().showRepos();
 	});
 
 	context.subscriptions.push(disposable);

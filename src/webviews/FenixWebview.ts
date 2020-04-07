@@ -8,6 +8,7 @@ export default class FenixWebview {
     protected _webviewPanel: vscode.WebviewPanel | undefined;
     private _eventHandler: Function;
     private _webviewStyle: string;
+    private _webviewScript: string;
 
     private _views: { [viewID: string]: string };
     private _currentView: string;
@@ -19,6 +20,10 @@ export default class FenixWebview {
         this._webviewStyle = fs.readFileSync(
             path.join(this._context.extensionPath, 'views', 'webviewStyle.css')
         ).toString();
+        this._webviewScript = fs.readFileSync(
+            path.join(this._context.extensionPath, 'views', 'webviewScript.js')
+        ).toString();
+
 
         this._views = {
             main: 'main.fnx',
@@ -65,15 +70,29 @@ export default class FenixWebview {
                     <style>
                         ${this.style()}
                     </style>
+                    <!-- Font Awesome JS -->
+                    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+                    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
                     <script>
                         const vscode = acquireVsCodeApi();
                     </script>
                 </head>
                 <body>
-                    ${parser.render('navbar.fnx')}
-                    <main>
+                    <div class="wrapper">
+                        ${parser.render('navbar.fnx')}
                         ${parser.render(this._views[this._currentView])}
-                    </main>
+                    </div>
+
+                    <!-- jQuery CDN - Slim version (=without AJAX) -->
+                    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                    <!-- Popper.JS -->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+                    <!-- Bootstrap JS -->
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+                    <script type="text/javascript">
+                        ${this.script()}
+                    </script>
 
                     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
                     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -85,5 +104,9 @@ export default class FenixWebview {
 
     private style(): string {
         return this._webviewStyle;
+    }
+
+    private script(): string {
+        return this._webviewScript;
     }
 }

@@ -11,7 +11,19 @@ export default class FenixParser {
   private _lua: any;
   private _lua_out: string;
 
-  constructor(extensionContext: vscode.ExtensionContext) {
+  private static __instance: FenixParser;
+    static init(extensionContext: vscode.ExtensionContext): FenixParser {
+        if (!this.__instance) {
+            this.__instance = new FenixParser(extensionContext);
+        }
+        return this.__instance;
+    }
+
+    static get(): FenixParser {
+        return this.__instance;
+    }
+
+  private constructor(extensionContext: vscode.ExtensionContext) {
     this._extensionPath = extensionContext.extensionPath;
     this._data = {};
     this._functions = {};
