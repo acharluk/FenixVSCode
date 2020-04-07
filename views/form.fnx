@@ -1,36 +1,62 @@
-<form id="next-form">
-    <$
-      fnx.render('vars', [[
-        <div class="form-group">
-          <label for="%id%">%title%</label>
-          <input type="text" class="form-control" id="exampleInputPassword1" value="Value">
-          <small id="emailHelp" class="form-text text-muted">%description%</small>
-        </div>
-      ]])
-    $>
+<div id="content">
 
-    <div class="form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Save this values</label>
-    </div>
-  </form>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+            <i class="fas fa-align-left"></i>
+            <span>Options</span>
+        </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+        </button>
+
+            <div class="collapse navbar-collapse nvcenter" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">New project</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Repositories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Environment</a>
+                    </li>
+                    <li class="nav-item">
+
+                    </li>
+                </ul>
+            </div>
+            <a class="nav-link article btn" id="createButton" href="#">
+                <i class="fas fa-cogs"></i>
+                <span>Create</span>
+            </a>
+        </div>
+    </nav>
+
+    <form id="next-form">
+        <$ fnx.render( 'vars', [[ <div class="form-group">
+            <label for="%id%">%title%</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" value="Value">
+            <small id="emailHelp" class="form-text text-muted">%description%</small>
+</div>
+]]) $>
+
+<div class="form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Save this values</label>
+</div>
+</form>
 
 <style>
-  #next-form {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  #next-form label {
-    color: var(--vscode-editor-foreground);
-  }
+    #next-form {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    #next-form label {
+        color: var(--vscode-editor-foreground);
+    }
 </style>
 
-
-<script>
-  function sendCreate() {
-    vscode.postMessage({
-      command: 'create'
-    });
-  }
-</script>
+</div>

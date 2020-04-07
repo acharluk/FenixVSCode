@@ -1,65 +1,40 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="https://github.com/acharluk/Fenix">Fenix</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<!-- Sidebar  -->
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <h3>Fenix</h3>
+    </div>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#" onclick="vscode.postMessage({command: 'viewNew'})">
-          New
-          <span class="sr-only">(current)</span>
-        </a>
-      </li>
-      <li>
-        <a class="nav-link" href="#" onclick="vscode.postMessage({command: 'refreshNew'})">
-          Refresh
-        </a>
-      </li>
-      <li>
-        <a class="nav-link" href="#" onclick="vscode.postMessage({command: 'viewRepos'})">
-          View repositories
-        </a>
-      </li>
-
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          Language
-        </a>
-        <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-          $for{languages -> <a class="dropdown-item bg-dark" href="#">$value</a>}
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item bg-dark" href="#">Other</a>
-        </div>
-      </li> -->
+    <ul class="list-unstyled components">
+        <p>Filters</p>
+        <li>
+            <a href="#">Remove filters</a>
+        </li>
+        <li class="">
+            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Language</a>
+            <ul class="collapse list-unstyled" id="homeSubmenu">
+                <$ fnx.render( 'languages', [[ <li>
+                    <a href="#">%name%</a>
+        </li>
+        ]]) $>
+        </ul>
+        </li>
+        <li>
+            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Category</a>
+            <ul class="collapse list-unstyled" id="pageSubmenu">
+                <$ fnx.render( 'categories', [[ <li>
+                    <a href="#">%name%</a>
+        </li>
+        ]]) $>
+        </ul>
+        </li>
     </ul>
 
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-    </form>
-    <div id="footer-container">
-      <button id="create-button" onclick="sendCreate()">Create</button>
-      <!-- <$ fnx.render('createText') $> -->
-    </div>
-  </div>
+    <ul class="list-unstyled CTAs">
+        <li>
+            <a href="https://github.com/acharluk/FenixDefaultTemplates" class="download">Get more templates</a>
+        </li>
+        <li>
+            <a href="https://github.com/acharluk/Fenix" class="article">Fenix GitHub Page</a>
+        </li>
+    </ul>
 </nav>
-
-<style>
-  #create-button {
-    padding-left: 20px;
-    padding-right: 20px;
-    width: 5em;
-  }
-</style>
-
-<script>
-  function sendCreate() {
-    vscode.postMessage({
-      command: 'create',
-      id: g_id
-    })
-  }
-</script>
