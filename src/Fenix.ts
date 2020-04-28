@@ -55,29 +55,33 @@ export default class Fenix {
         this._webview.show('repos', FenixParser.get());
     }
 
-    handleWebviewEvent(event: { command: string, id: string }) {
+    handleWebviewEvent(event: { command: string, id: string, vars?: any }) {
         const templates: any =  FenixParser.get().get('templates');
         FenixParser.get().pushEnv();
+        console.log(event);
 
         switch (event.command) {
             case 'create': {
-                if (this._selectedTemplateID) {
-                    const rootPath = vscode.workspace.workspaceFolders
+                const rootPath = vscode.workspace.workspaceFolders
                     ? vscode.workspace.workspaceFolders[0].uri.fsPath
                     : '';
-                    this._repoHandler.runTemplate(this._selectedTemplateID, rootPath);
-                } else {
-                    this._selectedTemplateID = event.id;
-                    let t = templates.find((t: Template) => t.id === this._selectedTemplateID);
-                    if (t && t.vars) {
-                        const tt = t.vars.map((v: any[]) => [...v]);
-                        FenixParser.get().push('vars', tt);
+                
+                if (event.vars) {
+                    for (let v in event.vars) {
+                        FenixParser.get().push(v, event.vars[v]);
                     }
-                    FenixParser.get().push('createText', 'Create');
-                    this._webview.show('form', FenixParser.get());
                 }
+
+                this._repoHandler.runTemplate(event.id, rootPath);
                 break;
             }
+            case 'ready':
+                this._webview.panel?.webview.postMessage({
+                    command: 'load',
+                    templates: templates,
+                    repositories: FenixConfig.get().getRepos()
+                });
+                break;
             case 'viewNew':
                 this.show();
                 break;
