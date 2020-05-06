@@ -1,6 +1,5 @@
-import * as vscode from 'vscode';
 import { readFileSync } from 'fs';
-import { join, format } from 'path';
+import { join } from 'path';
 import FenixConfig from './configuration/FenixConfig';
 
 import * as luajs from 'lua-in-js';
@@ -11,19 +10,19 @@ export default class FenixParser {
   private _lua: any;
 
   private static __instance: FenixParser;
-    static init(extensionContext: vscode.ExtensionContext): FenixParser {
-        if (!this.__instance) {
-            this.__instance = new FenixParser(extensionContext);
-        }
-        return this.__instance;
+  static init(extensionContextPath: string): FenixParser {
+    if (!this.__instance) {
+      this.__instance = new FenixParser(extensionContextPath);
     }
+    return this.__instance;
+  }
 
-    static get(): FenixParser {
-        return this.__instance;
-    }
+  static get(): FenixParser {
+    return this.__instance;
+  }
 
-  private constructor(extensionContext: vscode.ExtensionContext) {
-    this._extensionPath = extensionContext.extensionPath;
+  private constructor(extensionContextPath: string) {
+    this._extensionPath = extensionContextPath;
     this._data = {};
     this._lua = luajs.createEnv();
   }
@@ -60,29 +59,29 @@ export default class FenixParser {
 
     function superRender(something: any, format?: string) {
       format = format || '%value%';
-  
+
       if (typeof something === 'object') {
-          if (Array.isArray(something)) {
-              something.forEach(s => superRender(s, format));
-          } else {
-              let obj = something;
-              const regexList = [];
-              for (let key of Object.keys(obj)) {
-                  regexList.push({
-                      name: key,
-                      reg: new RegExp(`%${key}%`, 'g')
-                  });
-              }
-              
-              let ret = format;
-              regexList.forEach(r => {
-                  ret = ret.replace(r.reg, something[r.name]);
-              });
-              
-              sc_lua_out += ret;
+        if (Array.isArray(something)) {
+          something.forEach(s => superRender(s, format));
+        } else {
+          let obj = something;
+          const regexList = [];
+          for (let key of Object.keys(obj)) {
+            regexList.push({
+              name: key,
+              reg: new RegExp(`%${key}%`, 'g')
+            });
           }
+
+          let ret = format;
+          regexList.forEach(r => {
+            ret = ret.replace(r.reg, something[r.name]);
+          });
+
+          sc_lua_out += ret;
+        }
       } else {
-          sc_lua_out += format.replace(/%value%/g, something);
+        sc_lua_out += format.replace(/%value%/g, something);
       }
     }
 

@@ -4,9 +4,10 @@
 	"repository": {
 		"url": "https://github.com/acharluk/Fenix"
 	},
+	"icon": "logo.png",
 	"displayName": "Fenix",
 	"description": "Fenix is a powerful and easy to use project generator for Visual Studio Code",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"engines": {
 		"vscode": "^1.43.0"
 	},

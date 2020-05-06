@@ -1,4 +1,4 @@
-import Template from "./Template";
+import Template from './Template';
 
 export default interface Repository {
     $schema: string;
