@@ -55,7 +55,6 @@ export default class Fenix {
   handleWebviewEvent(event: { command: string, id: string, vars?: any }) {
     const templates: any = FenixParser.get().get('templates');
     FenixParser.get().pushEnv();
-    console.log(event);
 
     switch (event.command) {
       case 'create': {
@@ -63,13 +62,17 @@ export default class Fenix {
           ? vsWorkspace.workspaceFolders[0].uri.fsPath
           : '';
 
-        if (event.vars) {
-          for (let v in event.vars) {
-            FenixParser.get().push(v, event.vars[v]);
+        if (!rootPath) {
+          vsWindow.showErrorMessage('Please open a folder before creating a project!');
+        } else {
+          if (event.vars) {
+            for (let v in event.vars) {
+              FenixParser.get().push(v, event.vars[v]);
+            }
           }
-        }
 
-        this._repoHandler.runTemplate(event.id, rootPath);
+          this._repoHandler.runTemplate(event.id, rootPath);
+        }
         break;
       }
       case 'ready':

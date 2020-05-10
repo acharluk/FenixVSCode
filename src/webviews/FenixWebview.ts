@@ -36,7 +36,7 @@ export default class FenixWebview {
     //     this._webviewPanel.webview.html = html;
     //   });
 
-    this._webviewPanel.webview.html = readFileSync(path.join(this._context.extensionPath, 'src', 'views', 'index.html'))
+    this._webviewPanel.webview.html = readFileSync(path.join(this._context.extensionPath, 'views', 'index.html'))
       .toString()
       .replace(/href=/g, 'href=vscode-resource:' + __dirname + '/views')
       .replace(/src=/g, 'src=vscode-resource:' + __dirname + '/views')
