@@ -10,7 +10,8 @@ import FenixWebview from './webviews/FenixWebview';
 import FenixParser from './FenixParser';
 
 export default class Fenix {
-  static FENIX_APP_URL = 'http://fenix.acharluk.xyz/';
+  // static FENIX_APP_URL = 'http://fenix.acharluk.xyz/';
+  static FENIX_APP_URL = 'http://localhost:3000/';
 
   private _webview: FenixWebview;
   private _repoHandler: RepoHandler;
@@ -49,14 +50,6 @@ export default class Fenix {
 
         this._webview.show();
       });
-  }
-
-  showRepos() {
-    FenixParser.get().clear();
-    FenixParser.get().push('repos', FenixConfig.get().getRepos());
-    FenixParser.get().pushEnv();
-
-    this._webview.show();
   }
 
   handleWebviewEvent(event: { command: string, id: string, vars?: any }) {

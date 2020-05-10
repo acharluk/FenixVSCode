@@ -16,19 +16,14 @@
 		"Programming Languages"
 	],
 	"activationEvents": [
-		"onCommand:fenix.newProject",
-		"onCommand:fenix.showRepos"
+		"onCommand:fenix.open"
 	],
 	"main": "./build/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "fenix.newProject",
-				"title": "Fenix: New project"
-			},
-			{
-				"command": "fenix.showRepos",
-				"title": "Fenix: View repositories"
+				"command": "fenix.open",
+				"title": "Fenix: Open Fenix"
 			}
 		],
 		"configuration": {

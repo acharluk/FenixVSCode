@@ -9,16 +9,11 @@ export function activate(context: vscode.ExtensionContext) {
   FenixParser.init(context.extensionPath);
   Fenix.init(context);
 
-  let disposable = vscode.commands.registerCommand('fenix.newProject', () => {
+  let disposable = vscode.commands.registerCommand('fenix.open', () => {
     Fenix.get().show();
   });
 
-  let showRepos = vscode.commands.registerCommand('fenix.showRepos', () => {
-    Fenix.get().showRepos();
-  });
-
   context.subscriptions.push(disposable);
-  context.subscriptions.push(showRepos);
 }
 
 export function deactivate() { }

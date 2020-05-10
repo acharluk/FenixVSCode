@@ -36,7 +36,7 @@ export default class RepoHandler {
             t.author = json.author;
             t.repoName = json.repoName;
             t.repoUrl = json.repoUrl;
-            t.hasForm = t.vars ? 'true' : 'false';
+            t.hasForm = t.environment ? 'true' : 'false';
           });
 
           templates.push(...json.templates);

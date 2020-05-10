@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import Fenix from '../Fenix';
 import fetch from 'node-fetch';
+import { readFileSync } from 'fs';
 
 export default class FenixWebview {
   protected _context: vscode.ExtensionContext;
@@ -17,9 +18,9 @@ export default class FenixWebview {
       'Fenix',
       vscode.ViewColumn.One,
       {
-        localResourceRoots: [
-          vscode.Uri.file(path.join(this._context.extensionPath, 'views'))
-        ],
+        // localResourceRoots: [
+        //   vscode.Uri.file(path.join(this._context.extensionPath, 'views'))
+        // ],
         enableScripts: true
       }
     );
@@ -28,12 +29,18 @@ export default class FenixWebview {
   show(): void {
     this._webviewPanel = this._webviewPanel || this.createWebviewPanel();
 
-    fetch(Fenix.FENIX_APP_URL)
-      .then(data => data.text())
-      .then(html => {
-        this._webviewPanel = this._webviewPanel || this.createWebviewPanel();
-        this._webviewPanel.webview.html = html;
-      });
+    // fetch(Fenix.FENIX_APP_URL)
+    //   .then(data => data.text())
+    //   .then(html => {
+    //     this._webviewPanel = this._webviewPanel || this.createWebviewPanel();
+    //     this._webviewPanel.webview.html = html;
+    //   });
+
+    this._webviewPanel.webview.html = readFileSync(path.join(this._context.extensionPath, 'src', 'views', 'index.html'))
+      .toString()
+      .replace(/href=/g, 'href=vscode-resource:' + __dirname + '/views')
+      .replace(/src=/g, 'src=vscode-resource:' + __dirname + '/views')
+      .replace(/\\/g, '/');
 
     this._webviewPanel.webview.onDidReceiveMessage(
       (message) => {
