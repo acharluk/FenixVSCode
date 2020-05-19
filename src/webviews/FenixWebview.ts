@@ -18,9 +18,6 @@ export default class FenixWebview {
       'Fenix',
       vscode.ViewColumn.One,
       {
-        // localResourceRoots: [
-        //   vscode.Uri.file(path.join(this._context.extensionPath, 'views'))
-        // ],
         enableScripts: true
       }
     );
@@ -28,13 +25,6 @@ export default class FenixWebview {
 
   show(): void {
     this._webviewPanel = this._webviewPanel || this.createWebviewPanel();
-
-    // fetch(Fenix.FENIX_APP_URL)
-    //   .then(data => data.text())
-    //   .then(html => {
-    //     this._webviewPanel = this._webviewPanel || this.createWebviewPanel();
-    //     this._webviewPanel.webview.html = html;
-    //   });
 
     this._webviewPanel.webview.html = readFileSync(path.join(this._context.extensionPath, 'views', 'index.html'))
       .toString()

@@ -8,13 +8,12 @@ import FenixConfig from './configuration/FenixConfig';
 import RepoHandler from './template/RepoHandler';
 import FenixWebview from './webviews/FenixWebview';
 import FenixParser from './FenixParser';
+import FenixView from './FenixViewContainer';
 
 export default class Fenix {
-  // static FENIX_APP_URL = 'http://fenix.acharluk.xyz/';
-  static FENIX_APP_URL = 'http://localhost:3000/';
-
   private _webview: FenixWebview;
   private _repoHandler: RepoHandler;
+  private _view: FenixView;
 
   private static __instance: Fenix;
   static init(extensionContext: vsExtensionContext): Fenix {
@@ -28,9 +27,14 @@ export default class Fenix {
     return this.__instance;
   }
 
+  getRepoHandler(): RepoHandler {
+    return this._repoHandler;
+  }
+
   private constructor(extensionContext: vsExtensionContext) {
     this._webview = new FenixWebview(extensionContext);
     this._repoHandler = new RepoHandler();
+    this._view = new FenixView(extensionContext);
   }
 
   show(forceRefresh?: boolean) {

@@ -70,15 +70,16 @@ export default class RepoHandler {
   getCategories() {
     const categories: any[] = [];
 
-    for (let categoryList of this._templateList.map(t => t.categories)) {
+    for (let categoryList of this._templateList.map(t => t.category)) {
       categoryList.forEach((category) => {
         let index = categories.map(c => c.name).indexOf(category);
         if (index !== -1) {
           categories[index].count++;
         } else {
-          categories.push({
+            categories.push({
             name: category,
-            count: 1
+            // TODO: Remove counts, no longer used
+            // count: 1
           });
         }
       });

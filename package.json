@@ -16,7 +16,10 @@
 		"Programming Languages"
 	],
 	"activationEvents": [
-		"onCommand:fenix.open"
+		"onCommand:fenix.open",
+		"onView:fenixQuickCreate",
+		"onView:fenixRepositories",
+		"onView:fenixEnvironment"
 	],
 	"main": "./build/extension.js",
 	"contributes": {
@@ -47,6 +50,39 @@
 					"default": {}
 				}
 			}
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "fenixView",
+					"title": "Fenix",
+					"icon": "no1.png"
+				}
+			]
+		},
+		"views": {
+			"fenixView": [
+				{
+					"id": "fenixQuickCreate",
+					"name": "Quick create"
+				},
+				{
+					"id": "fenixRepositories",
+					"name": "Repositories"
+				},
+				{
+					"id": "fenixEnvironment",
+					"name": "Environment"
+				}
+			]
+		},
+		"menus": {
+			"view/title": [
+				{
+					"command": "fenix.open",
+					"when": "view == fenixQuickCreate"
+				}
+			]
 		}
 	},
 	"scripts": {

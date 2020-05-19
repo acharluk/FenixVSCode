@@ -3,7 +3,7 @@ export default interface Template {
     displayName: string;
     description: string;
     language: string;
-    categories: string[];
+    category: string[];
     img?: string;
     directories: string[];
     files: {
