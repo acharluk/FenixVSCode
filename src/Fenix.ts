@@ -76,6 +76,7 @@ export default class Fenix {
           }
 
           this._repoHandler.runTemplate(event.id, rootPath);
+          this._webview.panel?.dispose();
         }
         break;
       }

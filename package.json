@@ -7,7 +7,7 @@
 	"icon": "logo.png",
 	"displayName": "Fenix",
 	"description": "Fenix is a powerful and easy to use project generator for Visual Studio Code",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"engines": {
 		"vscode": "^1.43.0"
 	},
@@ -27,6 +27,10 @@
 			{
 				"command": "fenix.open",
 				"title": "Fenix: Open Fenix"
+			},
+			{
+				"command": "fenix.repo.delete",
+				"title": "Fenix: Delete repository"
 			}
 		],
 		"configuration": {
@@ -58,6 +62,13 @@
 					"title": "Fenix",
 					"icon": "no1.png"
 				}
+			],
+			"panel": [
+				{
+					"id": "fenix-panel",
+					"title": "asdasd",
+					"icon": "no1.png"
+				}
 			]
 		},
 		"views": {
@@ -81,6 +92,12 @@
 				{
 					"command": "fenix.open",
 					"when": "view == fenixQuickCreate"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "fenix.repo.delete",
+					"when": "viewItem == fenix-new"
 				}
 			]
 		}
