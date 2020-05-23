@@ -1,50 +1,29 @@
 import * as vscode from 'vscode';
+import QuickCreateTreeItem from './QuickCreateTreeItem';
 import Fenix from '../Fenix';
+import FenixConfig from '../configuration/FenixConfig';
 
-export default class QuickCreateProvider implements vscode.TreeDataProvider<FenixTreeItem> {
+export default class QuickCreateProvider implements vscode.TreeDataProvider<QuickCreateTreeItem> {
+  private _onDidChangeTreeData: vscode.EventEmitter<QuickCreateTreeItem | undefined> = new vscode.EventEmitter<QuickCreateTreeItem | undefined>();
+  readonly onDidChangeTreeData: vscode.Event<QuickCreateTreeItem | undefined> = this._onDidChangeTreeData.event;
+
   constructor(private workspaceRoot: string) {}
 
-  getTreeItem(element: FenixTreeItem): vscode.TreeItem {
+  refresh(): void {
+    this._onDidChangeTreeData.fire();
+  }
+
+  getTreeItem(element: QuickCreateTreeItem): vscode.TreeItem {
     return element;
   }
 
-  async getChildren(element?: FenixTreeItem): Promise<FenixTreeItem[]> {
-    const templates = await Fenix.get().getRepoHandler().getTemplates();
-    const ret= [];
+  async getChildren(element?: QuickCreateTreeItem): Promise<QuickCreateTreeItem[]> {
+    const templates = await FenixConfig.get().getPinned();
+    const ret = [];
     for (let v of templates) {
-      ret.push(new FenixTreeItem(`${v.displayName}`, `(${v.repoName})`, vscode.TreeItemCollapsibleState.None, v.id));
+      ret.push(new QuickCreateTreeItem(v));
     }
 
     return ret;
-  }
-}
-
-class FenixTreeItem extends vscode.TreeItem {
-  constructor(
-    public readonly label: string,
-    private version: string,
-    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-    private templateID?: string
-  ) {
-    super(label, collapsibleState);
-  }
-
-  get tooltip(): string {
-    return `${this.label}-${this.version}`;
-  }
-
-  get description(): string {
-    return this.version;
-  }
-
-  get command(): vscode.Command {
-    return {
-      command: 'fenix.open',
-      title: 'something',
-    };
-  }
-
-  get contextValue(): string {
-    return 'fenix-quick';
   }
 }

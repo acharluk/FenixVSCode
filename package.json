@@ -50,6 +50,14 @@
 				}
 			},
 			{
+				"command": "fenix.template.run",
+				"title": "Run this template",
+				"icon": {
+					"dark": "assets/icons/rocket.svg",
+					"light": "assets/icons/rocket.svg"
+				}
+			},
+			{
 				"command": "fenix.template.fav",
 				"title": "Add/Remove this template from Quick Create",
 				"icon": {
@@ -109,6 +117,10 @@
 				"fenix.env": {
 					"type": "object",
 					"default": {}
+				},
+				"fenix.pinned": {
+					"type": "array",
+					"default": []
 				}
 			}
 		},
@@ -151,6 +163,14 @@
 					"when": "false"
 				},
 				{
+					"command": "fenix.template.run",
+					"when": "false"
+				},
+				{
+					"command": "fenix.template.share",
+					"when": "false"
+				},
+				{
 					"command": "fenix.template.fav",
 					"when": "false"
 				},
@@ -188,6 +208,11 @@
 				{
 					"command": "fenix.repo.delete",
 					"when": "viewItem == fenix-repo",
+					"group": "inline"
+				},
+				{
+					"command": "fenix.template.run",
+					"when": "viewItem == fenix-quick",
 					"group": "inline"
 				},
 				{

@@ -1,10 +1,6 @@
 import * as vscode from 'vscode';
-import FenixConfig from '../configuration/FenixConfig';
-import RepoHandler from '../template/RepoHandler';
+import RepositoryTreeItem from './RepositoryTreeItem';
 import Fenix from '../Fenix';
-import fetch from 'node-fetch';
-import Repository from '../interfaces/Repository';
-import { join } from 'path';
 
 export default class RepositoryProvider implements vscode.TreeDataProvider<RepositoryTreeItem> {
   constructor(private workspaceRoot: string) {}
@@ -28,26 +24,4 @@ export default class RepositoryProvider implements vscode.TreeDataProvider<Repos
       return repos;
     }
   }
-}
-
-class RepositoryTreeItem extends vscode.TreeItem {
-  constructor(
-    public readonly label: string,
-    public type: string,
-    public repoName?: string,
-  ) {
-    super(
-      label,
-      type === 'repo'
-        ? vscode.TreeItemCollapsibleState.Expanded
-        : vscode.TreeItemCollapsibleState.None
-    );
-  }
-
-  contextValue = `fenix-${this.type}`;
-
-  iconPath = {
-    dark: join(__filename, '..' , '..', 'assets','icons','/star-full.svg'),
-    light: join(__filename, '..' , '..', 'assets','icons','/star-full.svg'),
-  };
 }

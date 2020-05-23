@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import Fenix from '../Fenix';
+import Template from '../interfaces/Template';
 
 export default class FenixConfig {
   private _configRoot: string = 'fenix';
@@ -51,7 +52,7 @@ export default class FenixConfig {
 
   async addEnvVar(id: string, value: string): Promise<void> {
     if (vscode.workspace.getConfiguration(this._configRoot + '.env').has(id)) {
-      vscode.window.showErrorMessage(`Variable "${id}" already exists`);
+      await this.editVar(id, value);
     } else {
       await vscode.workspace.getConfiguration(this._configRoot)
         .update(
@@ -81,7 +82,6 @@ export default class FenixConfig {
   }
 
   async deleteVar(id: string) {
-    console.log('deleteVar', id);
     const current: any = vscode.workspace.getConfiguration(this._configRoot).get('env');
     current[id] = undefined;
     await vscode.workspace.getConfiguration(this._configRoot)
@@ -92,6 +92,37 @@ export default class FenixConfig {
       );
 
     Fenix.get().getViewContainer().environmentProvider.refresh();
+  }
+
+  async getPinned(): Promise<Template[]> {
+    const templateIDs: string[] = (await vscode.workspace.getConfiguration(this._configRoot).get('pinned')) || [];
+    const templates = await Fenix.get().getRepoHandler().getTemplates();
+    const pinnedTemplates = templates.filter(t => templateIDs.includes(t.id));
+
+    return pinnedTemplates;
+  }
+
+  async togglePinned(templateID: string): Promise<void> {
+    if (vscode.workspace.getConfiguration(this._configRoot + '.pinned').has(templateID)) {
+      const current: any = vscode.workspace.getConfiguration(this._configRoot).get('pinned');
+      current.splice(current.indexOf(templateID), 1);
+      await vscode.workspace.getConfiguration(this._configRoot)
+        .update(
+          'pinned',
+          current,
+          vscode.ConfigurationTarget.Global
+        );
+    } else {
+      const current: any = vscode.workspace.getConfiguration(this._configRoot).get('pinned');
+      current.push(templateID);
+      await vscode.workspace.getConfiguration(this._configRoot)
+        .update(
+          'pinned',
+          current,
+          vscode.ConfigurationTarget.Global
+        );
+    }
+    Fenix.get().getViewContainer().quickCreateProvider.refresh();
   }
 
   async canExecuteCommands(command: string) {

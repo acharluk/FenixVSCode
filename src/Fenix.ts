@@ -2,6 +2,7 @@ import {
   ExtensionContext as vsExtensionContext,
   workspace as vsWorkspace,
   window as vsWindow,
+  ExtensionContext,
 } from 'vscode';
 
 import FenixConfig from './configuration/FenixConfig';
@@ -14,6 +15,7 @@ export default class Fenix {
   private _webview: FenixWebview;
   private _repoHandler: RepoHandler;
   private _view: FenixView;
+  private _extensionContext: ExtensionContext;
 
   private static __instance: Fenix;
   static init(extensionContext: vsExtensionContext): Fenix {
@@ -35,10 +37,15 @@ export default class Fenix {
     return this._view;
   }
 
+  getExtensionContext(): ExtensionContext {
+    return this._extensionContext;
+  }
+
   private constructor(extensionContext: vsExtensionContext) {
     this._webview = new FenixWebview(extensionContext);
     this._repoHandler = new RepoHandler();
     this._view = new FenixView(extensionContext);
+    this._extensionContext = extensionContext;
   }
 
   show(forceRefresh?: boolean) {

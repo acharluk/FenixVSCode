@@ -1,7 +1,21 @@
 import * as vscode from 'vscode';
+import RepositoryTreeItem from '../providers/RepositoryTreeItem';
+import FenixConfig from '../configuration/FenixConfig';
+import QuickCreateTreeItem from '../providers/QuickCreateTreeItem';
+import Fenix from '../Fenix';
 
 export default {
-  'fenix.template.fav': (e: any) => { console.log(e); vscode.window.showInformationMessage('Fav/unfav -> ' + e.label); },
+  'fenix.template.run': (e: QuickCreateTreeItem) => {
+    Fenix.get().handleWebviewEvent({
+      command: 'create',
+      id: e.template.id,
+    });
+  },
+  'fenix.template.fav': (e: RepositoryTreeItem) => {
+    if (e.id) {
+      FenixConfig.get().togglePinned(e.id);
+    }
+  },
   'fenix.template.share': (e: any) => {
     console.log(e);
     vscode.env.openExternal(
