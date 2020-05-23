@@ -11,7 +11,7 @@ export default class FenixView {
   quickCreateView: any;
   repositoryView: any;
   environmentView: any;
-  
+
   constructor(context: vscode.ExtensionContext) {
     this.quickCreateProvider = new QuickCreateProvider(context.extensionPath);
     this.repositoryProvider = new RepositoryProvider(context.extensionPath);
@@ -20,21 +20,21 @@ export default class FenixView {
     this.quickCreateView = vscode.window.createTreeView(
       'fenixQuickCreate',
       {
-        treeDataProvider: this.quickCreateProvider
+        treeDataProvider: this.quickCreateProvider,
       }
     );
 
     this.repositoryView = vscode.window.createTreeView(
       'fenixRepositories',
       {
-        treeDataProvider: this.repositoryProvider
+        treeDataProvider: this.repositoryProvider,
       }
     );
 
     this.environmentView = vscode.window.createTreeView(
       'fenixEnvironment',
       {
-        treeDataProvider: this.environmentProvider
+        treeDataProvider: this.environmentProvider,
       }
     );
   }

@@ -27,7 +27,7 @@ export default class FenixConfig {
   }
 
   getRepos(): string[] {
-    return vscode.workspace.getConfiguration(this._configRoot).get('repos') || [ this._defaultRepo ];
+    return vscode.workspace.getConfiguration(this._configRoot).get('repos') || [this._defaultRepo];
   }
 
   addRepo(url: string) {
@@ -54,14 +54,14 @@ export default class FenixConfig {
       vscode.window.showErrorMessage(`Variable "${id}" already exists`);
     } else {
       await vscode.workspace.getConfiguration(this._configRoot)
-      .update(
-        'env',
-        {
-          ...vscode.workspace.getConfiguration(this._configRoot + '.env'),
-          [id]: value,
-        },
-        vscode.ConfigurationTarget.Global
-      );
+        .update(
+          'env',
+          {
+            ...vscode.workspace.getConfiguration(this._configRoot + '.env'),
+            [id]: value,
+          },
+          vscode.ConfigurationTarget.Global
+        );
     }
 
     Fenix.get().getViewContainer().environmentProvider.refresh();
@@ -101,7 +101,7 @@ export default class FenixConfig {
         { title: 'Yes' },
         { title: 'No' },
         { title: 'Always' },
-        { title: 'Never' }
+        { title: 'Never' },
       ];
       let res = await vscode.window.showWarningMessage(`Allow Fenix to run template commands? (${command})`, {}, ...opts);
 

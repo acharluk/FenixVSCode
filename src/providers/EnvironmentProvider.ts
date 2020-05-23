@@ -1,9 +1,10 @@
 import * as vscode from 'vscode';
 import FenixConfig from '../configuration/FenixConfig';
+import EnvironmentVariable from './EnvironmentVariable';
 
 export default class EnvironmentProvider implements vscode.TreeDataProvider<EnvironmentVariable> {
   private _onDidChangeTreeData: vscode.EventEmitter<EnvironmentVariable | undefined> = new vscode.EventEmitter<EnvironmentVariable | undefined>();
-	readonly onDidChangeTreeData: vscode.Event<EnvironmentVariable | undefined> = this._onDidChangeTreeData.event;
+  readonly onDidChangeTreeData: vscode.Event<EnvironmentVariable | undefined> = this._onDidChangeTreeData.event;
 
   constructor(private workspaceRoot: string) {}
 
@@ -23,33 +24,5 @@ export default class EnvironmentProvider implements vscode.TreeDataProvider<Envi
     }
 
     return ret;
-  }
-}
-
-class EnvironmentVariable extends vscode.TreeItem {
-  constructor(
-    private varID: string,
-    private varValue: string
-  ) {
-    super(varID, vscode.TreeItemCollapsibleState.None);
-  }
-
-  get tooltip(): string {
-    return `${this.varID}: ${this.varValue}`;
-  }
-
-  get description(): string {
-    return this.varValue;
-  }
-
-  get command(): vscode.Command {
-    return {
-      command: 'fenix.env.edit',
-      title: 'Edit this variable',
-    };
-  }
-
-  get contextValue(): string {
-    return 'fenix-env';
   }
 }

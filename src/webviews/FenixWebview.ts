@@ -1,8 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import Fenix from '../Fenix';
-import fetch from 'node-fetch';
-import { readFileSync, fstat, existsSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 
 export default class FenixWebview {
   protected _context: vscode.ExtensionContext;
@@ -18,7 +17,7 @@ export default class FenixWebview {
       'Fenix',
       vscode.ViewColumn.One,
       {
-        enableScripts: true
+        enableScripts: true,
       }
     );
   }

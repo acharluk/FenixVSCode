@@ -81,7 +81,7 @@ export default class RepoHandler {
     // Download files
     if (template.files && template.files.download) {
       await Promise.all(
-        template.files.download.map(async (file: { from: string, to: string }) => {
+        template.files.download.map(async (file: { from: string; to: string }) => {
           let remote = await fetch(template.repoUrl + file.from);
           let data = await remote.text();
           data = FenixParser.get().renderRaw(data);
@@ -121,7 +121,7 @@ export default class RepoHandler {
             commandToRun = template.command.macos;
             break;
           default:
-            template.command[currOS]
+            return template.command[currOS]
               ? commandToRun = template.command[currOS]
               : vscode.window.showErrorMessage(`Command not set for OS: ${currOS}`);
         }

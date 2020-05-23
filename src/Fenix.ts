@@ -1,7 +1,7 @@
 import {
   ExtensionContext as vsExtensionContext,
   workspace as vsWorkspace,
-  window as vsWindow
+  window as vsWindow,
 } from 'vscode';
 
 import FenixConfig from './configuration/FenixConfig';
@@ -52,7 +52,7 @@ export default class Fenix {
       });
   }
 
-  handleWebviewEvent(event: { command: string, id: string, vars?: any }) {
+  handleWebviewEvent(event: { command: string; id: string; vars?: any }) {
     const templates: any = FenixParser.get().get('templates');
     FenixParser.get().pushEnv();
 
@@ -80,7 +80,7 @@ export default class Fenix {
         this._webview.panel?.webview.postMessage({
           command: 'load',
           templates: templates,
-          repositories: FenixConfig.get().getRepos()
+          repositories: FenixConfig.get().getRepos(),
         });
         break;
       default:

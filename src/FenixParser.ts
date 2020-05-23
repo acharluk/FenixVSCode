@@ -69,7 +69,7 @@ export default class FenixParser {
           for (let key of Object.keys(obj)) {
             regexList.push({
               name: key,
-              reg: new RegExp(`%${key}%`, 'g')
+              reg: new RegExp(`%${key}%`, 'g'),
             });
           }
 
@@ -91,7 +91,7 @@ export default class FenixParser {
       },
       env(var_name: string) {
         return _lua_data[var_name] || `Fenix error: Undefined variable '${var_name}'`;
-      }
+      },
     });
     this._lua.loadLib('fnx', fenixLib);
 

@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
     },
     'fenix.env.edit': async (e: any) => {
       const newValue = await vscode.window.showInputBox({
-        value: e.varValue
+        value: e.varValue,
       });
       if (newValue) {
         FenixConfig.get().editVar(e.varID, newValue);
@@ -39,7 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
     },
     'fenix.env.delete': async (e: any) => {
       await FenixConfig.get().deleteVar(e.varID);
-    }
+    },
   };
 
   for (const command in commands) {
