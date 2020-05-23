@@ -9,7 +9,7 @@ export default class QuickCreateTreeItem extends vscode.TreeItem {
   }
 
   get description(): string {
-    return this.template.description;
+    return this.template.repoName || this.template.id;
   }
 
   get command(): vscode.Command {

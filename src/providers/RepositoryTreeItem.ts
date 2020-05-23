@@ -4,8 +4,9 @@ import { join } from "path";
 export default class RepositoryTreeItem extends vscode.TreeItem {
   constructor(
     public readonly label: string,
-    public type: string,
-    public repoName?: string,
+    public readonly type: string,
+    public readonly repoName?: string,
+    public readonly id?: string,
   ) {
     super(
       label,

@@ -103,7 +103,12 @@ export default class FenixConfig {
   }
 
   async togglePinned(templateID: string): Promise<void> {
-    if (vscode.workspace.getConfiguration(this._configRoot + '.pinned').has(templateID)) {
+    const pinned: string[] | undefined = vscode.workspace.getConfiguration(this._configRoot).get('pinned');
+    if (!pinned) {
+      return;
+    }
+
+    if (pinned.indexOf(templateID) > -1) {
       const current: any = vscode.workspace.getConfiguration(this._configRoot).get('pinned');
       current.splice(current.indexOf(templateID), 1);
       await vscode.workspace.getConfiguration(this._configRoot)

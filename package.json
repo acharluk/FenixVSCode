@@ -17,7 +17,6 @@
 	],
 	"activationEvents": [
 		"onCommand:fenix.open",
-		"onCommand:fenix.repo.delete",
 		"onView:fenixQuickCreate",
 		"onView:fenixRepositories",
 		"onView:fenixEnvironment"

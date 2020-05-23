@@ -28,6 +28,7 @@ export default class FenixParser {
   }
 
   pushEnv() {
+    this.clear();
     const env = FenixConfig.get().getEnv();
     for (let k in env) {
       this.push(k, env[k]);
@@ -87,10 +88,10 @@ export default class FenixParser {
 
     const fenixLib = new luajs.Table({
       render(var_name: string, format?: string) {
-        superRender(_lua_data[var_name] !== undefined ? _lua_data[var_name] : `Fenix error: Undefined variable '${var_name}'`, format);
+        superRender(_lua_data[var_name] !== undefined ? _lua_data[var_name] : `<undefined_fenix_variable:${var_name}>`, format);
       },
       env(var_name: string) {
-        return _lua_data[var_name] || `Fenix error: Undefined variable '${var_name}'`;
+        return _lua_data[var_name] || `<undefined_fenix_variable:${var_name}>`;
       },
     });
     this._lua.loadLib('fnx', fenixLib);
