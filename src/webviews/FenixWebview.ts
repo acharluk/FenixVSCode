@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import Fenix from '../Fenix';
 import fetch from 'node-fetch';
-import { readFileSync } from 'fs';
+import { readFileSync, fstat, existsSync } from 'fs';
 
 export default class FenixWebview {
   protected _context: vscode.ExtensionContext;
@@ -26,7 +26,14 @@ export default class FenixWebview {
   show(): void {
     this._webviewPanel = this._webviewPanel || this.createWebviewPanel();
 
-    this._webviewPanel.webview.html = readFileSync(path.join(this._context.extensionPath, 'views', 'index.html'))
+    const webviewPath = path.join(this._context.extensionPath, 'views', 'index.html');
+
+    if (!existsSync(webviewPath)) {
+      vscode.window.showErrorMessage(`Fenix Webview could not be loaded :(`);
+      return;
+    }
+
+    this._webviewPanel.webview.html = readFileSync(webviewPath)
       .toString()
       .replace(/href=/g, 'href=vscode-resource:' + __dirname + '/views')
       .replace(/src=/g, 'src=vscode-resource:' + __dirname + '/views')

@@ -6,24 +6,38 @@ import * as path from 'path';
 import * as os from 'os';
 import Template from '../interfaces/Template';
 import FenixParser from '../FenixParser';
+import Repository from '../interfaces/Repository';
 
 export default class RepoHandler {
-  _templateList: Template[];
+  _repositories: Repository[];
+  // _templateList: Template[];
 
   constructor() {
-    this._templateList = [];
+    this._repositories = [];
+    // this._templateList = [];
+  }
+
+  get _templateList(): Template[] {
+    const templateList: Template[] = [];
+    this._repositories.forEach(r => {
+      templateList.push(...r.templates);
+    });
+    return templateList;
   }
 
   async getTemplates(forceRefresh?: boolean): Promise<Template[]> {
     if (this._templateList.length === 0 || forceRefresh) {
-      this._templateList = await this.refreshTemplates();
+      // this._templateList = await this.refreshTemplates();
+      await this.refreshTemplates();
     }
 
     return this._templateList;
   }
 
-  async refreshTemplates(): Promise<Template[]> {
+  async refreshTemplates(): Promise<void> {
     const templates: Template[] = [];
+    const repositories: Repository[] = [];
+    this._repositories = [];
 
     await Promise.all(
       FenixConfig.get().getRepos().map(async (repo) => {
@@ -37,55 +51,19 @@ export default class RepoHandler {
             t.repoName = json.repoName;
             t.repoUrl = json.repoUrl;
             t.hasForm = t.environment ? 'true' : 'false';
+            t.parent = json.repoUrl;
           });
 
-          templates.push(...json.templates);
+          // templates.push(...json.templates);
+          repositories.push(json);
         } catch (e) {
           vscode.window.showErrorMessage(`[Fenix] Could not fetch repo: ${repo}`);
         }
       })
     );
 
-    return templates;
-  }
-
-  getLangs() {
-    const langs: any[] = [];
-
-    this._templateList.forEach(t => {
-      let index = langs.map(l => l.name).indexOf(t.language);
-      if (index !== -1) {
-        langs[index].count++;
-      } else {
-        langs.push({
-          name: t.language,
-          count: 1
-        });
-      }
-    });
-
-    return langs;
-  }
-
-  getCategories() {
-    const categories: any[] = [];
-
-    for (let categoryList of this._templateList.map(t => t.category)) {
-      categoryList.forEach((category) => {
-        let index = categories.map(c => c.name).indexOf(category);
-        if (index !== -1) {
-          categories[index].count++;
-        } else {
-            categories.push({
-            name: category,
-            // TODO: Remove counts, no longer used
-            // count: 1
-          });
-        }
-      });
-    }
-
-    return categories;
+    this._repositories = repositories;
+    // return templates;
   }
 
   async runTemplate(templateID: string, rootPath: string) {

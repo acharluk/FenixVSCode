@@ -1,4 +1,4 @@
-export default interface Template {
+export default class Template {
     id: string;
     displayName: string;
     description: string;
@@ -27,4 +27,19 @@ export default interface Template {
     repoUrl?: string;
     author?: string;
     hasForm?: string;
+    parent?: string;
+
+    constructor() {
+        this.id = '';
+        this.displayName = '';
+        this.description = '';
+        this.language = '';
+        this.category = [];
+        this.directories = [];
+        this.files = {
+            create: [],
+            download: [],
+            open: []
+        };
+    }
 }

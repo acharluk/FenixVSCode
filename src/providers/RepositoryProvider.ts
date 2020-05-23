@@ -1,5 +1,10 @@
 import * as vscode from 'vscode';
 import FenixConfig from '../configuration/FenixConfig';
+import RepoHandler from '../template/RepoHandler';
+import Fenix from '../Fenix';
+import fetch from 'node-fetch';
+import Repository from '../interfaces/Repository';
+import { join } from 'path';
 
 export default class RepositoryProvider implements vscode.TreeDataProvider<RepositoryTreeItem> {
   constructor(private workspaceRoot: string) {}
@@ -8,37 +13,41 @@ export default class RepositoryProvider implements vscode.TreeDataProvider<Repos
     return element;
   }
 
-  getChildren(element?: RepositoryTreeItem): vscode.ProviderResult<RepositoryTreeItem[]> {
-    return FenixConfig.get().getRepos().map(r => new RepositoryTreeItem(r, 'version', vscode.TreeItemCollapsibleState.None));
+  async getChildren(element?: RepositoryTreeItem): Promise<RepositoryTreeItem[]> {
+    console.log('Element', element);
+    if (element && element.type === 'repo') {
+      const temps = (await Fenix.get().getRepoHandler().getTemplates()).filter(t => t.parent === element.repoName);
+      const items = temps.map(r => new RepositoryTreeItem(r.displayName, 'template'));
+      return items;
+    } else if (element && element.type === 'template') {
+      return [];
+    } else {
+      // const repos = FenixConfig.get().getRepos().map(r => new RepositoryTreeItem(r, 'repo', r));
+      await Fenix.get().getRepoHandler().refreshTemplates();
+      const repos = Fenix.get().getRepoHandler()._repositories.map(r => new RepositoryTreeItem(`${r.repoName}\t[${r.author}]`, 'repo', r.repoUrl));
+      return repos;
+    }
   }
 }
 
 class RepositoryTreeItem extends vscode.TreeItem {
   constructor(
     public readonly label: string,
-    private version: string,
-    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-    private templateID?: string
+    public type: string,
+    public repoName?: string,
   ) {
-    super(label, collapsibleState);
+    super(
+      label,
+      type === 'repo'
+        ? vscode.TreeItemCollapsibleState.Expanded
+        : vscode.TreeItemCollapsibleState.None
+    );
   }
 
-  get tooltip(): string {
-    return `${this.label}-${this.version}`;
-  }
+  contextValue = `fenix-${this.type}`;
 
-  get description(): string {
-    return this.version;
-  }
-
-  get command(): vscode.Command {
-    return {
-      command: 'fenix.repo.delete',
-      title: 'Delete this repo',
-    };
-  }
-
-  get contextValue(): string {
-    return 'fenix-new';
-  }
+  iconPath = {
+    dark: join(__filename, '..' , '..', 'assets','icons','/star-full.svg'),
+    light: join(__filename, '..' , '..', 'assets','icons','/star-full.svg'),
+  };
 }

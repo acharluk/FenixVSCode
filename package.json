@@ -17,6 +17,7 @@
 	],
 	"activationEvents": [
 		"onCommand:fenix.open",
+		"onCommand:fenix.repo.delete",
 		"onView:fenixQuickCreate",
 		"onView:fenixRepositories",
 		"onView:fenixEnvironment"
@@ -26,11 +27,67 @@
 		"commands": [
 			{
 				"command": "fenix.open",
-				"title": "Fenix: Open Fenix"
+				"title": "Fenix: Open Fenix",
+				"icon": {
+					"dark": "no1.png",
+					"light": "no1.png"
+				}
 			},
 			{
 				"command": "fenix.repo.delete",
-				"title": "Fenix: Delete repository"
+				"title": "Delete repository",
+				"icon": {
+					"dark": "assets/icons/chrome-close.svg",
+					"light": "assets/icons/chrome-close.svg"
+				}
+			},
+			{
+				"command": "fenix.repo.add",
+				"title": "Fenix: Add new repository",
+				"icon": {
+					"dark": "assets/icons/new-file.svg",
+					"light": "assets/icons/new-file.svg"
+				}
+			},
+			{
+				"command": "fenix.template.fav",
+				"title": "Add/Remove this template from Quick Create",
+				"icon": {
+					"dark": "assets/icons/star-empty.svg",
+					"light": "assets/icons/star-empty.svg"
+				}
+			},
+			{
+				"command": "fenix.template.share",
+				"title": "Share via Twitter",
+				"icon": {
+					"dark": "assets/icons/twitter.svg",
+					"light": "assets/icons/twitter.svg"
+				}
+			},
+			{
+				"command": "fenix.env.new",
+				"title": "New variable",
+				"icon": {
+					"dark": "assets/icons/new-file.svg",
+					"light": "assets/icons/new-file.svg"
+				}
+			},
+			{
+				"command": "fenix.env.edit",
+				"title": "Edit variable",
+				"icon": {
+					"dark": "assets/icons/edit.svg",
+					"light": "assets/icons/edit.svg"
+				}
+			},
+			{
+				"command": "fenix.env.delete",
+				"title": "Delete variable",
+				"icon": {
+					"dark": "assets/icons/chrome-close.svg",
+					"light": "assets/icons/chrome-close.svg"
+				}
 			}
 		],
 		"configuration": {
@@ -66,7 +123,7 @@
 			"panel": [
 				{
 					"id": "fenix-panel",
-					"title": "asdasd",
+					"title": "Fenix",
 					"icon": "no1.png"
 				}
 			]
@@ -88,16 +145,70 @@
 			]
 		},
 		"menus": {
+			"commandPalette": [
+				{
+					"command": "fenix.repo.delete",
+					"when": "false"
+				},
+				{
+					"command": "fenix.template.fav",
+					"when": "false"
+				},
+				{
+					"command": "fenix.env.new",
+					"when": "false"
+				},
+				{
+					"command": "fenix.env.edit",
+					"when": "false"
+				},
+				{
+					"command": "fenix.env.delete",
+					"when": "false"
+				}
+			],
 			"view/title": [
 				{
 					"command": "fenix.open",
-					"when": "view == fenixQuickCreate"
+					"when": "view == fenixQuickCreate",
+					"group": "navigation"
+				},
+				{
+					"command": "fenix.repo.add",
+					"when": "view == fenixRepositories",
+					"group": "navigation"
+				},
+				{
+					"command": "fenix.env.new",
+					"when": "view == fenixEnvironment",
+					"group": "navigation"
 				}
 			],
 			"view/item/context": [
 				{
 					"command": "fenix.repo.delete",
-					"when": "viewItem == fenix-new"
+					"when": "viewItem == fenix-repo",
+					"group": "inline"
+				},
+				{
+					"command": "fenix.template.fav",
+					"when": "viewItem == fenix-template",
+					"group": "inline"
+				},
+				{
+					"command": "fenix.template.share",
+					"when": "viewItem == fenix-template",
+					"group": "inline"
+				},
+				{
+					"command": "fenix.env.edit",
+					"when": "viewItem == fenix-env",
+					"group": "inline"
+				},
+				{
+					"command": "fenix.env.delete",
+					"when": "viewItem == fenix-env",
+					"group": "inline"
 				}
 			]
 		}

@@ -31,6 +31,10 @@ export default class Fenix {
     return this._repoHandler;
   }
 
+  getViewContainer(): FenixView {
+    return this._view;
+  }
+
   private constructor(extensionContext: vsExtensionContext) {
     this._webview = new FenixWebview(extensionContext);
     this._repoHandler = new RepoHandler();
@@ -40,16 +44,8 @@ export default class Fenix {
   show(forceRefresh?: boolean) {
     this._repoHandler.getTemplates(forceRefresh)
       .then(templates => {
-        const languages = this._repoHandler.getLangs();
-        const categories = this._repoHandler.getCategories();
-
         FenixParser.get().clear();
-        FenixParser.get().push('languages', languages);
-        FenixParser.get().push('languages_count', languages.length);
-        FenixParser.get().push('categories', categories);
-        FenixParser.get().push('categories_count', categories.length);
         FenixParser.get().push('templates', templates);
-        FenixParser.get().push('repos', FenixConfig.get().getRepos());
         FenixParser.get().pushEnv();
 
         this._webview.show();

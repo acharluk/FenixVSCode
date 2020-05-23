@@ -1,46 +1,51 @@
 import * as vscode from 'vscode';
 import FenixConfig from '../configuration/FenixConfig';
 
-export default class EnvironmentProvider implements vscode.TreeDataProvider<FenixTreeItem> {
+export default class EnvironmentProvider implements vscode.TreeDataProvider<EnvironmentVariable> {
+  private _onDidChangeTreeData: vscode.EventEmitter<EnvironmentVariable | undefined> = new vscode.EventEmitter<EnvironmentVariable | undefined>();
+	readonly onDidChangeTreeData: vscode.Event<EnvironmentVariable | undefined> = this._onDidChangeTreeData.event;
+
   constructor(private workspaceRoot: string) {}
 
-  getTreeItem(element: FenixTreeItem): vscode.TreeItem {
+  refresh(): void {
+    this._onDidChangeTreeData.fire();
+  }
+
+  getTreeItem(element: EnvironmentVariable): vscode.TreeItem {
     return element;
   }
 
-  getChildren(element?: FenixTreeItem): vscode.ProviderResult<FenixTreeItem[]> {
+  getChildren(element?: EnvironmentVariable): vscode.ProviderResult<EnvironmentVariable[]> {
     const env = FenixConfig.get().getEnv();
     const ret= [];
     for (let v in env) {
-      ret.push(new FenixTreeItem(`${v}: '${env[v]}'`, '', vscode.TreeItemCollapsibleState.None));
+      ret.push(new EnvironmentVariable(v, env[v]));
     }
 
     return ret;
   }
 }
 
-class FenixTreeItem extends vscode.TreeItem {
+class EnvironmentVariable extends vscode.TreeItem {
   constructor(
-    public readonly label: string,
-    private version: string,
-    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-    private templateID?: string
+    private varID: string,
+    private varValue: string
   ) {
-    super(label, collapsibleState);
+    super(varID, vscode.TreeItemCollapsibleState.None);
   }
 
   get tooltip(): string {
-    return `${this.label}-${this.version}`;
+    return `${this.varID}: ${this.varValue}`;
   }
 
   get description(): string {
-    return this.version;
+    return this.varValue;
   }
 
   get command(): vscode.Command {
     return {
-      command: 'fenix.open',
-      title: 'something',
+      command: 'fenix.env.edit',
+      title: 'Edit this variable',
     };
   }
 

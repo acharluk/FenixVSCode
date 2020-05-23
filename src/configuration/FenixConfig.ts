@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import Fenix from '../Fenix';
 
 export default class FenixConfig {
   private _configRoot: string = 'fenix';
@@ -26,10 +27,10 @@ export default class FenixConfig {
   }
 
   getRepos(): string[] {
-    return vscode.workspace.getConfiguration(this._configRoot).get('repos') || [];
+    return vscode.workspace.getConfiguration(this._configRoot).get('repos') || [ this._defaultRepo ];
   }
 
-  addRepo() {
+  addRepo(url: string) {
 
   }
 
@@ -46,6 +47,51 @@ export default class FenixConfig {
 
   getEnv(): any {
     return vscode.workspace.getConfiguration(this._configRoot).get('env');
+  }
+
+  async addEnvVar(id: string, value: string): Promise<void> {
+    if (vscode.workspace.getConfiguration(this._configRoot + '.env').has(id)) {
+      vscode.window.showErrorMessage(`Variable "${id}" already exists`);
+    } else {
+      await vscode.workspace.getConfiguration(this._configRoot)
+      .update(
+        'env',
+        {
+          ...vscode.workspace.getConfiguration(this._configRoot + '.env'),
+          [id]: value,
+        },
+        vscode.ConfigurationTarget.Global
+      );
+    }
+
+    Fenix.get().getViewContainer().environmentProvider.refresh();
+  }
+
+  async editVar(id: string, value: string) {
+    const current: any = vscode.workspace.getConfiguration(this._configRoot).get('env');
+    current[id] = value;
+    await vscode.workspace.getConfiguration(this._configRoot)
+      .update(
+        'env',
+        current,
+        vscode.ConfigurationTarget.Global
+      );
+
+    Fenix.get().getViewContainer().environmentProvider.refresh();
+  }
+
+  async deleteVar(id: string) {
+    console.log('deleteVar', id);
+    const current: any = vscode.workspace.getConfiguration(this._configRoot).get('env');
+    current[id] = undefined;
+    await vscode.workspace.getConfiguration(this._configRoot)
+      .update(
+        'env',
+        current,
+        vscode.ConfigurationTarget.Global
+      );
+
+    Fenix.get().getViewContainer().environmentProvider.refresh();
   }
 
   async canExecuteCommands(command: string) {
