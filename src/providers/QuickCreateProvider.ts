@@ -23,6 +23,6 @@ export default class QuickCreateProvider implements vscode.TreeDataProvider<Quic
       ret.push(new QuickCreateTreeItem(v));
     }
 
-    return ret;
+    return ret.sort((a, b) => a.template.displayName < b.template.displayName ? -1 : 1);
   }
 }

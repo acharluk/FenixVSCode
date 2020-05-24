@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import Fenix from '../Fenix';
 import Template from '../interfaces/Template';
+import RepoHandler from '../template/RepoHandler';
 
 export default class FenixConfig {
   private _configRoot: string = 'fenix';
@@ -64,7 +65,12 @@ export default class FenixConfig {
         vscode.ConfigurationTarget.Global
       );
 
+    (await Fenix.get().getRepoHandler().getTemplates())
+      .filter(t => t.repoUrl === repoUrl)
+      .forEach(t => this.deletePinned(t.id));
+
     Fenix.get().getViewContainer().repositoryProvider.refresh();
+    Fenix.get().getViewContainer().quickCreateProvider.refresh();
   }
 
   resetRepos() {
@@ -148,6 +154,25 @@ export default class FenixConfig {
     } else {
       const current: any = vscode.workspace.getConfiguration(this._configRoot).get('pinned');
       current.push(templateID);
+      await vscode.workspace.getConfiguration(this._configRoot)
+        .update(
+          'pinned',
+          current,
+          vscode.ConfigurationTarget.Global
+        );
+    }
+    Fenix.get().getViewContainer().quickCreateProvider.refresh();
+  }
+
+  async deletePinned(templateID: string): Promise<void> {
+    const pinned: string[] | undefined = vscode.workspace.getConfiguration(this._configRoot).get('pinned');
+    if (!pinned) {
+      return;
+    }
+
+    if (pinned.indexOf(templateID) > -1) {
+      const current: any = vscode.workspace.getConfiguration(this._configRoot).get('pinned');
+      current.splice(current.indexOf(templateID), 1);
       await vscode.workspace.getConfiguration(this._configRoot)
         .update(
           'pinned',

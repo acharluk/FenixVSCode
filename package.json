@@ -44,8 +44,8 @@
 				"command": "fenix.repo.add",
 				"title": "Fenix: Add new repository",
 				"icon": {
-					"dark": "assets/icons/new-file.svg",
-					"light": "assets/icons/new-file.svg"
+					"dark": "assets/icons/add.svg",
+					"light": "assets/icons/add.svg"
 				}
 			},
 			{
@@ -76,8 +76,8 @@
 				"command": "fenix.env.new",
 				"title": "New variable",
 				"icon": {
-					"dark": "assets/icons/new-file.svg",
-					"light": "assets/icons/new-file.svg"
+					"dark": "assets/icons/add.svg",
+					"light": "assets/icons/add.svg"
 				}
 			},
 			{
@@ -94,6 +94,14 @@
 				"icon": {
 					"dark": "assets/icons/chrome-close.svg",
 					"light": "assets/icons/chrome-close.svg"
+				}
+			},
+			{
+				"command": "fenix.recommended.add",
+				"title": "Add this repository",
+				"icon": {
+					"dark": "assets/icons/add.svg",
+					"light": "assets/icons/add.svg"
 				}
 			}
 		],
@@ -152,6 +160,10 @@
 				{
 					"id": "fenixEnvironment",
 					"name": "Environment"
+				},
+				{
+					"id": "fenixRecommended",
+					"name": "Recommended"
 				}
 			]
 		},
@@ -232,6 +244,11 @@
 				{
 					"command": "fenix.env.delete",
 					"when": "viewItem == fenix-env",
+					"group": "inline"
+				},
+				{
+					"command": "fenix.recommended.add",
+					"when": "viewItem == fenix-recommended",
 					"group": "inline"
 				}
 			]

@@ -20,13 +20,13 @@ export default class RepositoryProvider implements vscode.TreeDataProvider<Repos
     if (element && element.type === 'repo') {
       const temps = (await Fenix.get().getRepoHandler().getTemplates()).filter(t => t.parent === element.repoName);
       const items = temps.map(r => new RepositoryTreeItem(r.displayName, 'template', undefined, r.id));
-      return items;
+      return items.sort((a, b) => a.label < b.label ? -1 : 1);
     } else if (element && element.type === 'template') {
       return [];
     } else {
       await Fenix.get().getRepoHandler().refreshTemplates();
       const repos = Fenix.get().getRepoHandler()._repositories.map(r => new RepositoryTreeItem(`${r.repoName} [${r.author}]`, 'repo', r.repoUrl));
-      return repos;
+      return repos.sort((a, b) => a.label < b.label ? -1 : 1);
     }
   }
 }

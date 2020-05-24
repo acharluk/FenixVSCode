@@ -18,11 +18,11 @@ export default class EnvironmentProvider implements vscode.TreeDataProvider<Envi
 
   getChildren(element?: EnvironmentVariable): vscode.ProviderResult<EnvironmentVariable[]> {
     const env = FenixConfig.get().getEnv();
-    const ret= [];
+    const ret = [];
     for (let v in env) {
       ret.push(new EnvironmentVariable(v, env[v]));
     }
 
-    return ret;
+    return ret.sort((a, b) => a.varID < b.varID ? -1 : 1);
   }
 }

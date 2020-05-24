@@ -5,6 +5,7 @@ import TemplateCommands from './commands/TemplateCommands';
 import FenixConfig from './configuration/FenixConfig';
 import Fenix from './Fenix';
 import FenixParser from './FenixParser';
+import RecommendedCommands from './commands/RecommendedCommands';
 
 export function activate(context: vscode.ExtensionContext) {
   FenixConfig.init();
@@ -16,6 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
     ...RepositoryCommands,
     ...TemplateCommands,
     ...EnvironmentCommands,
+    ...RecommendedCommands,
   };
 
   for (const command in commands) {
