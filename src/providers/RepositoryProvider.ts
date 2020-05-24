@@ -3,9 +3,16 @@ import RepositoryTreeItem from './RepositoryTreeItem';
 import Fenix from '../Fenix';
 
 export default class RepositoryProvider implements vscode.TreeDataProvider<RepositoryTreeItem> {
+  private _onDidChangeTreeData: vscode.EventEmitter<RepositoryTreeItem | undefined> = new vscode.EventEmitter<RepositoryTreeItem | undefined>();
+  readonly onDidChangeTreeData: vscode.Event<RepositoryTreeItem | undefined> = this._onDidChangeTreeData.event;
+
   constructor(private workspaceRoot: string) {}
 
-  getTreeItem(element: RepositoryTreeItem): vscode.TreeItem {
+  refresh(): void {
+    this._onDidChangeTreeData.fire();
+  }
+
+  getTreeItem(element: RepositoryTreeItem): RepositoryTreeItem {
     return element;
   }
 

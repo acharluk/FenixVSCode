@@ -47,12 +47,12 @@ export default class FenixParser {
     this._data = {};
   }
 
-  render(viewName: string): string {
-    const viewPath = join(this._extensionPath, 'views', viewName);
-    let page = readFileSync(viewPath).toString();
+  // render(viewName: string): string {
+  //   const viewPath = join(this._extensionPath, 'views', viewName);
+  //   let page = readFileSync(viewPath).toString();
 
-    return this.renderRaw(page);
-  }
+  //   return this.renderRaw(page);
+  // }
 
   renderRaw(inputStr: string): string {
     const _lua_data = this._data;

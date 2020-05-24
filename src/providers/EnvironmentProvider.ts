@@ -12,7 +12,7 @@ export default class EnvironmentProvider implements vscode.TreeDataProvider<Envi
     this._onDidChangeTreeData.fire();
   }
 
-  getTreeItem(element: EnvironmentVariable): vscode.TreeItem {
+  getTreeItem(element: EnvironmentVariable): EnvironmentVariable {
     return element;
   }
 

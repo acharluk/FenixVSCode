@@ -13,7 +13,7 @@ export default class QuickCreateProvider implements vscode.TreeDataProvider<Quic
     this._onDidChangeTreeData.fire();
   }
 
-  getTreeItem(element: QuickCreateTreeItem): vscode.TreeItem {
+  getTreeItem(element: QuickCreateTreeItem): QuickCreateTreeItem {
     return element;
   }
 

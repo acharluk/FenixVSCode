@@ -59,8 +59,8 @@ export default class Fenix {
       });
   }
 
-  handleWebviewEvent(event: { command: string; id: string; vars?: any }) {
-    const templates: any = FenixParser.get().get('templates');
+  async handleWebviewEvent(event: { command: string; id: string; vars?: any }) {
+    const templates: any = await this._repoHandler.getTemplates();
     FenixParser.get().pushEnv();
 
     switch (event.command) {

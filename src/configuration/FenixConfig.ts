@@ -4,7 +4,7 @@ import Template from '../interfaces/Template';
 
 export default class FenixConfig {
   private _configRoot: string = 'fenix';
-  private _defaultRepo: string = 'https://raw.githubusercontent.com/acharluk/FenixDefaultTemplates/master/fenix.json';
+  private _defaultRepo: string = 'https://raw.githubusercontent.com/FenixTemplates/Default/master/fenix.json';
 
   private static __instance: FenixConfig;
   static init(): FenixConfig {
@@ -31,8 +31,21 @@ export default class FenixConfig {
     return vscode.workspace.getConfiguration(this._configRoot).get('repos') || [this._defaultRepo];
   }
 
-  addRepo(url: string) {
+  async addRepo(url: string) {
+    const currentRepos = this.getRepos();
+    if (!currentRepos.includes(url)) {
+      currentRepos.push(url);
+      await vscode.workspace.getConfiguration(this._configRoot)
+        .update(
+          'repos',
+          currentRepos,
+          vscode.ConfigurationTarget.Global
+        );
+    } else {
+      vscode.window.showErrorMessage('Repo already added');
+    }
 
+    Fenix.get().getViewContainer().repositoryProvider.refresh();
   }
 
   removeRepo() {
