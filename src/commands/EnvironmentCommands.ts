@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
 import FenixConfig from '../configuration/FenixConfig';
+import EnvironmentVariable from '../providers/EnvironmentVariable';
 
 export default {
-  'fenix.env.new': async (e: any) => {
+  'fenix.env.new': async (e: EnvironmentVariable) => {
     const id = await vscode.window.showInputBox({ placeHolder: 'Enter variable id' });
     if (!id) { return; }
 
@@ -11,7 +12,7 @@ export default {
 
     await FenixConfig.get().addEnvVar(id, value);
   },
-  'fenix.env.edit': async (e: any) => {
+  'fenix.env.edit': async (e: EnvironmentVariable) => {
     const newValue = await vscode.window.showInputBox({
       value: e.varValue,
     });
@@ -19,7 +20,7 @@ export default {
       FenixConfig.get().editVar(e.varID, newValue);
     }
   },
-  'fenix.env.delete': async (e: any) => {
+  'fenix.env.delete': async (e: EnvironmentVariable) => {
     await FenixConfig.get().deleteVar(e.varID);
   },
 };

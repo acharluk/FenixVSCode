@@ -1,7 +1,7 @@
-import * as vscode from 'vscode';
+import { existsSync, readFileSync } from 'fs';
 import * as path from 'path';
+import * as vscode from 'vscode';
 import Fenix from '../Fenix';
-import { readFileSync, existsSync } from 'fs';
 
 export default class FenixWebview {
   protected _context: vscode.ExtensionContext;
@@ -24,7 +24,6 @@ export default class FenixWebview {
 
   show(): void {
     this._webviewPanel = this._webviewPanel || this.createWebviewPanel();
-
     const webviewPath = path.join(this._context.extensionPath, 'views', 'index.html');
 
     if (!existsSync(webviewPath)) {

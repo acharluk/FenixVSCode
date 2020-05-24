@@ -2,8 +2,8 @@ import * as vscode from 'vscode';
 
 export default class EnvironmentVariable extends vscode.TreeItem {
   constructor(
-    private varID: string,
-    private varValue: string
+    public readonly varID: string,
+    public readonly varValue: string
   ) {
     super(varID, vscode.TreeItemCollapsibleState.None);
   }

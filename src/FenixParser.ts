@@ -1,11 +1,8 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import * as luajs from 'lua-in-js';
 import FenixConfig from './configuration/FenixConfig';
 
-import * as luajs from 'lua-in-js';
 
 export default class FenixParser {
-  private _extensionPath: string;
   private _data: any;
   private _lua: any;
 
@@ -22,7 +19,6 @@ export default class FenixParser {
   }
 
   private constructor(extensionContextPath: string) {
-    this._extensionPath = extensionContextPath;
     this._data = {};
     this._lua = luajs.createEnv();
   }
@@ -46,13 +42,6 @@ export default class FenixParser {
   clear(): void {
     this._data = {};
   }
-
-  // render(viewName: string): string {
-  //   const viewPath = join(this._extensionPath, 'views', viewName);
-  //   let page = readFileSync(viewPath).toString();
-
-  //   return this.renderRaw(page);
-  // }
 
   renderRaw(inputStr: string): string {
     const _lua_data = this._data;

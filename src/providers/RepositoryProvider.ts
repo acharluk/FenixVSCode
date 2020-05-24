@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
-import RepositoryTreeItem from './RepositoryTreeItem';
 import Fenix from '../Fenix';
+import RepositoryTreeItem from './RepositoryTreeItem';
 
 export default class RepositoryProvider implements vscode.TreeDataProvider<RepositoryTreeItem> {
   private _onDidChangeTreeData: vscode.EventEmitter<RepositoryTreeItem | undefined> = new vscode.EventEmitter<RepositoryTreeItem | undefined>();
   readonly onDidChangeTreeData: vscode.Event<RepositoryTreeItem | undefined> = this._onDidChangeTreeData.event;
 
-  constructor(private workspaceRoot: string) {}
+  constructor(private workspaceRoot: string) { }
 
   refresh(): void {
     this._onDidChangeTreeData.fire();

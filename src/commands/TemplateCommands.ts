@@ -16,8 +16,7 @@ export default {
       FenixConfig.get().togglePinned(e.id);
     }
   },
-  'fenix.template.share': (e: any) => {
-    console.log(e);
+  'fenix.template.share': (e: RepositoryTreeItem) => {
     vscode.env.openExternal(
       vscode.Uri.parse(`https://twitter.com/intent/tweet?text=Check out this Fenix template! ${e.label}&url=https://github.com/ACharLuk/Fenix`)
     );

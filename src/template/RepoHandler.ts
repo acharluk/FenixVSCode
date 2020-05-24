@@ -1,20 +1,18 @@
+import * as fs from 'fs';
+import fetch from 'node-fetch';
+import * as os from 'os';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import FenixConfig from '../configuration/FenixConfig';
-import fetch from 'node-fetch';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as os from 'os';
-import Template from '../interfaces/Template';
 import FenixParser from '../FenixParser';
 import Repository from '../interfaces/Repository';
+import Template from '../interfaces/Template';
 
 export default class RepoHandler {
   _repositories: Repository[];
-  // _templateList: Template[];
 
   constructor() {
     this._repositories = [];
-    // this._templateList = [];
   }
 
   get _templateList(): Template[] {
@@ -33,7 +31,6 @@ export default class RepoHandler {
   }
 
   async refreshTemplates(): Promise<void> {
-    const templates: Template[] = [];
     const repositories: Repository[] = [];
     const savedRepos = FenixConfig.get().getRepos();
     if (savedRepos.length === 0) {
@@ -57,7 +54,14 @@ export default class RepoHandler {
           });
           repositories.push(json);
         } catch (e) {
-          vscode.window.showErrorMessage(`[Fenix] Could not fetch repo: ${repo}`);
+          let res = await vscode.window.showErrorMessage(`[Fenix] Could not fetch repo: '${repo}' Do you want to keep it?`, {}, ...[
+            { title: 'Keep' },
+            { title: 'Remove' },
+          ]);
+
+          if (res && res.title === 'Remove') {
+            FenixConfig.get().removeRepo(repo);
+          }
         }
       })
     );

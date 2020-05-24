@@ -1,24 +1,20 @@
-import {
-  ExtensionContext as vsExtensionContext,
-  workspace as vsWorkspace,
-  window as vsWindow,
-  ExtensionContext,
-} from 'vscode';
-
+import * as vscode from 'vscode';
 import FenixConfig from './configuration/FenixConfig';
-import RepoHandler from './template/RepoHandler';
-import FenixWebview from './webviews/FenixWebview';
 import FenixParser from './FenixParser';
 import FenixView from './FenixViewContainer';
+import Template from './interfaces/Template';
+import RepoHandler from './template/RepoHandler';
+import FenixWebview from './webviews/FenixWebview';
+
 
 export default class Fenix {
   private _webview: FenixWebview;
   private _repoHandler: RepoHandler;
   private _view: FenixView;
-  private _extensionContext: ExtensionContext;
+  private _extensionContext: vscode.ExtensionContext;
 
   private static __instance: Fenix;
-  static init(extensionContext: vsExtensionContext): Fenix {
+  static init(extensionContext: vscode.ExtensionContext): Fenix {
     if (!this.__instance) {
       this.__instance = new Fenix(extensionContext);
     }
@@ -37,11 +33,11 @@ export default class Fenix {
     return this._view;
   }
 
-  getExtensionContext(): ExtensionContext {
+  getExtensionContext(): vscode.ExtensionContext {
     return this._extensionContext;
   }
 
-  private constructor(extensionContext: vsExtensionContext) {
+  private constructor(extensionContext: vscode.ExtensionContext) {
     this._webview = new FenixWebview(extensionContext);
     this._repoHandler = new RepoHandler();
     this._view = new FenixView(extensionContext);
@@ -60,17 +56,17 @@ export default class Fenix {
   }
 
   async handleWebviewEvent(event: { command: string; id: string; vars?: any }) {
-    const templates: any = await this._repoHandler.getTemplates();
+    const templates: Template[] = await this._repoHandler.getTemplates();
     FenixParser.get().pushEnv();
 
     switch (event.command) {
       case 'create': {
-        const rootPath = vsWorkspace.workspaceFolders
-          ? vsWorkspace.workspaceFolders[0].uri.fsPath
+        const rootPath = vscode.workspace.workspaceFolders
+          ? vscode.workspace.workspaceFolders[0].uri.fsPath
           : '';
 
         if (!rootPath) {
-          vsWindow.showErrorMessage('Please open a folder before creating a project!');
+          vscode.window.showErrorMessage('Please open a folder before creating a project!');
         } else {
           if (event.vars) {
             for (let v in event.vars) {
@@ -91,7 +87,7 @@ export default class Fenix {
         });
         break;
       default:
-        vsWindow.showErrorMessage(`Fenix error: Error handling event '${event.command}'`);
+        vscode.window.showErrorMessage(`Fenix error: Error handling event '${event.command}'`);
     }
   }
 }

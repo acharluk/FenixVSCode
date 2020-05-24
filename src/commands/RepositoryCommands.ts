@@ -1,14 +1,16 @@
 import * as vscode from 'vscode';
-import RepositoryTreeItem from '../providers/RepositoryTreeItem';
 import FenixConfig from '../configuration/FenixConfig';
+import RepositoryTreeItem from '../providers/RepositoryTreeItem';
 
 export default {
-  'fenix.repo.delete': (e: RepositoryTreeItem) => {
-    const response = vscode.window.showQuickPick(['Yes', 'No'], {
+  'fenix.repo.delete': async (e: RepositoryTreeItem) => {
+    const response = await vscode.window.showQuickPick(['Yes', 'No'], {
       placeHolder: `Do you want to delete '${e.label}'?`,
     });
 
-    console.log(response);
+    if (response === 'Yes' && e.repoName) {
+      FenixConfig.get().removeRepo(e.repoName);
+    }
   },
   'fenix.repo.add': async () => {
     const repoURL = await vscode.window.showInputBox({

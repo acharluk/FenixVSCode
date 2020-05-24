@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
-import QuickCreateTreeItem from './QuickCreateTreeItem';
-import Fenix from '../Fenix';
 import FenixConfig from '../configuration/FenixConfig';
+import QuickCreateTreeItem from './QuickCreateTreeItem';
 
 export default class QuickCreateProvider implements vscode.TreeDataProvider<QuickCreateTreeItem> {
   private _onDidChangeTreeData: vscode.EventEmitter<QuickCreateTreeItem | undefined> = new vscode.EventEmitter<QuickCreateTreeItem | undefined>();

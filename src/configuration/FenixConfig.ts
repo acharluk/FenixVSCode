@@ -48,8 +48,23 @@ export default class FenixConfig {
     Fenix.get().getViewContainer().repositoryProvider.refresh();
   }
 
-  removeRepo() {
+  async removeRepo(repoUrl: string) {
+    const url = `${repoUrl}fenix.json`;
 
+    const current: string[] | undefined = vscode.workspace.getConfiguration(this._configRoot).get('repos');
+    if (!current) {
+      return;
+    }
+
+    current.splice(current.indexOf(url), 1);
+    await vscode.workspace.getConfiguration(this._configRoot)
+      .update(
+        'repos',
+        current,
+        vscode.ConfigurationTarget.Global
+      );
+
+    Fenix.get().getViewContainer().repositoryProvider.refresh();
   }
 
   resetRepos() {

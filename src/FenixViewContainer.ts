@@ -1,16 +1,19 @@
 import * as vscode from 'vscode';
 import EnvironmentProvider from './providers/EnvironmentProvider';
-import RepositoryProvider from './providers/RepositoryProvider';
+import EnvironmentVariable from './providers/EnvironmentVariable';
 import QuickCreateProvider from './providers/QuickCreateProvider';
+import QuickCreateTreeItem from './providers/QuickCreateTreeItem';
+import RepositoryProvider from './providers/RepositoryProvider';
+import RepositoryTreeItem from './providers/RepositoryTreeItem';
 
 export default class FenixView {
   quickCreateProvider: QuickCreateProvider;
   repositoryProvider: RepositoryProvider;
   environmentProvider: EnvironmentProvider;
 
-  quickCreateView: any;
-  repositoryView: any;
-  environmentView: any;
+  quickCreateView: vscode.TreeView<QuickCreateTreeItem>;
+  repositoryView: vscode.TreeView<RepositoryTreeItem>;
+  environmentView: vscode.TreeView<EnvironmentVariable>;
 
   constructor(context: vscode.ExtensionContext) {
     this.quickCreateProvider = new QuickCreateProvider(context.extensionPath);
