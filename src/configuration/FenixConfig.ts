@@ -4,7 +4,7 @@ import Template from '../interfaces/Template';
 
 export default class FenixConfig {
   private _configRoot: string = 'fenix';
-  private _defaultRepo: string = 'https://raw.githubusercontent.com/FenixTemplates/Default/master/fenix.json';
+  public readonly _defaultRepo: string = 'https://raw.githubusercontent.com/FenixTemplates/Default/master/fenix.json';
 
   private static __instance: FenixConfig;
   static init(): FenixConfig {

@@ -27,20 +27,22 @@ export default class RepoHandler {
 
   async getTemplates(forceRefresh?: boolean): Promise<Template[]> {
     if (this._templateList.length === 0 || forceRefresh) {
-      // this._templateList = await this.refreshTemplates();
       await this.refreshTemplates();
     }
-
     return this._templateList;
   }
 
   async refreshTemplates(): Promise<void> {
     const templates: Template[] = [];
     const repositories: Repository[] = [];
+    const savedRepos = FenixConfig.get().getRepos();
+    if (savedRepos.length === 0) {
+      savedRepos.push(FenixConfig.get()._defaultRepo);
+    }
     this._repositories = [];
 
     await Promise.all(
-      FenixConfig.get().getRepos().map(async (repo) => {
+      savedRepos.map(async (repo) => {
         try {
           let remote = await fetch(repo);
           let json = await remote.json();
@@ -53,8 +55,6 @@ export default class RepoHandler {
             t.hasForm = t.environment ? 'true' : 'false';
             t.parent = json.repoUrl;
           });
-
-          // templates.push(...json.templates);
           repositories.push(json);
         } catch (e) {
           vscode.window.showErrorMessage(`[Fenix] Could not fetch repo: ${repo}`);
@@ -63,7 +63,6 @@ export default class RepoHandler {
     );
 
     this._repositories = repositories;
-    // return templates;
   }
 
   async runTemplate(templateID: string, rootPath: string) {
