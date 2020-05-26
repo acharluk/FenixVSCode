@@ -6,5 +6,6 @@ export default {
   'fenix.recommended.add': async (e: RecommendedTreeItem) => {
     await FenixConfig.get().addRepo(e.url);
     Fenix.get().getViewContainer().recommendedProvider.refresh();
+    Fenix.get().refreshWebView();
   },
 };

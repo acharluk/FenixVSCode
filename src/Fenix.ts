@@ -55,8 +55,18 @@ export default class Fenix {
       });
   }
 
+  async refreshWebView() {
+    const templates: Template[] = await this._repoHandler.getTemplates(true);
+    const repos = FenixConfig.get().getRepos();
+
+    this._webview.panel?.webview.postMessage({
+      command: 'load',
+      templates: templates,
+      repositories: repos,
+    });
+  }
+
   async handleWebviewEvent(event: { command: string; id: string; vars?: any }) {
-    const templates: Template[] = await this._repoHandler.getTemplates();
     FenixParser.get().pushEnv();
 
     switch (event.command) {
@@ -80,11 +90,7 @@ export default class Fenix {
         break;
       }
       case 'ready':
-        this._webview.panel?.webview.postMessage({
-          command: 'load',
-          templates: templates,
-          repositories: FenixConfig.get().getRepos(),
-        });
+        this.refreshWebView();
         break;
       default:
         vscode.window.showErrorMessage(`Fenix error: Error handling event '${event.command}'`);

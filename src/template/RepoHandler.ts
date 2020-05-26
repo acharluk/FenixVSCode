@@ -87,7 +87,7 @@ export default class RepoHandler {
         template.files.download.map(async (file: { from: string; to: string }) => {
           let remote = await fetch(template.repoUrl + file.from);
           let data = await remote.text();
-          data = FenixParser.get().renderRaw(data);
+          data = FenixParser.get().renderRaw(data, template.environment);
 
           fs.writeFileSync(path.join(rootPath, file.to), data);
         })
@@ -117,8 +117,8 @@ export default class RepoHandler {
           case 'Windows_NT':
             commandToRun = template.command.windows;
             break;
-          case 'linux':
-            commandToRun = template.command.linux;
+          case 'Linux':
+            commandToRun = template.command.Linux;
             break;
           case 'darwin':
             commandToRun = template.command.macos;

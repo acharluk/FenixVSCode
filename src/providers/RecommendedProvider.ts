@@ -21,10 +21,6 @@ export default class RecommendedProvider implements vscode.TreeDataProvider<Reco
 
         Promise.all(
           json.map(async (r) => {
-            if (FenixConfig.get().getRepos().includes(r)) {
-              return;
-            }
-
             try {
               const raw2 = await fetch(r);
               const json = await raw2.json();

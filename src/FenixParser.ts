@@ -43,7 +43,7 @@ export default class FenixParser {
     this._data = {};
   }
 
-  renderRaw(inputStr: string): string {
+  renderRaw(inputStr: string, environment: any): string {
     const _lua_data = this._data;
     let sc_lua_out = '';
 
@@ -77,7 +77,7 @@ export default class FenixParser {
 
     const fenixLib = new luajs.Table({
       render(var_name: string, format?: string) {
-        superRender(_lua_data[var_name] !== undefined ? _lua_data[var_name] : `<undefined_fenix_variable:${var_name}>`, format);
+        superRender(_lua_data[var_name] !== undefined ? _lua_data[var_name] : environment.find((e: any) => e.id === var_name).default || `<undefined_fenix_variable:${var_name}>`, format);
       },
       env(var_name: string) {
         return _lua_data[var_name] || `<undefined_fenix_variable:${var_name}>`;

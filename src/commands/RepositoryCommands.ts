@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import FenixConfig from '../configuration/FenixConfig';
 import RepositoryTreeItem from '../providers/RepositoryTreeItem';
+import Fenix from '../Fenix';
 
 export default {
   'fenix.repo.delete': async (e: RepositoryTreeItem) => {
@@ -9,7 +10,8 @@ export default {
     });
 
     if (response === 'Yes' && e.repoName) {
-      FenixConfig.get().removeRepo(e.repoName);
+      await FenixConfig.get().removeRepo(e.repoName);
+      Fenix.get().refreshWebView();
     }
   },
   'fenix.repo.add': async () => {
@@ -17,7 +19,8 @@ export default {
       placeHolder: 'Enter the repository URL',
     });
     if (repoURL) {
-      FenixConfig.get().addRepo(repoURL);
+      await FenixConfig.get().addRepo(repoURL);
+      Fenix.get().refreshWebView();
     }
   },
 };

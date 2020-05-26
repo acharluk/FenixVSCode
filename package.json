@@ -7,7 +7,7 @@
 	"icon": "logo.png",
 	"displayName": "Fenix",
 	"description": "Fenix is a powerful and easy to use project generator for Visual Studio Code",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"engines": {
 		"vscode": "^1.43.0"
 	},
@@ -228,7 +228,7 @@
 				},
 				{
 					"command": "fenix.template.fav",
-					"when": "viewItem == fenix-template",
+					"when": "viewItem == fenix-template || viewItem == fenix-quick",
 					"group": "inline"
 				},
 				{

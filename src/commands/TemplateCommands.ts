@@ -11,9 +11,11 @@ export default {
       id: e.template.id,
     });
   },
-  'fenix.template.fav': (e: RepositoryTreeItem) => {
+  'fenix.template.fav': (e: RepositoryTreeItem | QuickCreateTreeItem) => {
     if (e.id) {
       FenixConfig.get().togglePinned(e.id);
+    } else if (e instanceof QuickCreateTreeItem && e.template) {
+      FenixConfig.get().togglePinned(e.template.id);
     }
   },
   'fenix.template.share': (e: RepositoryTreeItem) => {
