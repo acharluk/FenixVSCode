@@ -4,8 +4,8 @@ import * as vscode from 'vscode';
 import Fenix from '../Fenix';
 
 export default class FenixWebview {
-  protected _context: vscode.ExtensionContext;
-  protected _webviewPanel: vscode.WebviewPanel | undefined;
+  private _context: vscode.ExtensionContext;
+  public _webviewPanel: vscode.WebviewPanel | undefined;
 
   constructor(context: vscode.ExtensionContext) {
     this._context = context;
@@ -47,9 +47,5 @@ export default class FenixWebview {
 
     this._webviewPanel.onDidDispose(() => this._webviewPanel = undefined);
     this._webviewPanel.reveal();
-  }
-
-  get panel() {
-    return this._webviewPanel;
   }
 }

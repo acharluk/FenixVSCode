@@ -14,11 +14,10 @@ export default class Fenix {
   private _extensionContext: vscode.ExtensionContext;
 
   private static __instance: Fenix;
-  static init(extensionContext: vscode.ExtensionContext): Fenix {
+  static init(extensionContext: vscode.ExtensionContext): void {
     if (!this.__instance) {
       this.__instance = new Fenix(extensionContext);
     }
-    return this.__instance;
   }
 
   static get(): Fenix {
@@ -38,6 +37,9 @@ export default class Fenix {
   }
 
   private constructor(extensionContext: vscode.ExtensionContext) {
+    FenixConfig.init();
+    FenixParser.init();
+
     this._webview = new FenixWebview(extensionContext);
     this._repoHandler = new RepoHandler();
     this._view = new FenixView(extensionContext);
@@ -59,7 +61,7 @@ export default class Fenix {
     const templates: Template[] = await this._repoHandler.getTemplates(true);
     const repos = FenixConfig.get().getRepos();
 
-    this._webview.panel?.webview.postMessage({
+    this._webview._webviewPanel?.webview.postMessage({
       command: 'load',
       templates: templates,
       repositories: repos,
@@ -85,7 +87,7 @@ export default class Fenix {
           }
 
           this._repoHandler.runTemplate(event.id, rootPath);
-          this._webview.panel?.dispose();
+          this._webview._webviewPanel?.dispose();
         }
         break;
       }

@@ -24,6 +24,12 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.1.1
+
+- Code cleanup
+
+- Added fnx.date function to the parser, now you can use this function to get the current date
+
 ### 1.1.0
 
 - First public release

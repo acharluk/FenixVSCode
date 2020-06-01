@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import FenixConfig from '../configuration/FenixConfig';
-import EnvironmentVariable from '../providers/EnvironmentVariable';
+import EnvironmentVariable from '../providers/EnvironmentTreeItem';
 
 export default {
   'fenix.env.new': async (e: EnvironmentVariable) => {

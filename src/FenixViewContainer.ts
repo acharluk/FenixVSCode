@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import EnvironmentProvider from './providers/EnvironmentProvider';
-import EnvironmentVariable from './providers/EnvironmentVariable';
+import EnvironmentVariable from './providers/EnvironmentTreeItem';
 import QuickCreateProvider from './providers/QuickCreateProvider';
 import QuickCreateTreeItem from './providers/QuickCreateTreeItem';
 import RepositoryProvider from './providers/RepositoryProvider';

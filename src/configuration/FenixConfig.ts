@@ -8,11 +8,10 @@ export default class FenixConfig {
   public readonly _defaultRepo: string = 'https://raw.githubusercontent.com/FenixTemplates/Default/master/fenix.json';
 
   private static __instance: FenixConfig;
-  static init(): FenixConfig {
+  static init(): void {
     if (!this.__instance) {
       this.__instance = new FenixConfig();
     }
-    return this.__instance;
   }
 
   static get(): FenixConfig {

@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 import FenixConfig from '../configuration/FenixConfig';
-import EnvironmentVariable from './EnvironmentVariable';
+import EnvironmentTreeItem from './EnvironmentTreeItem';
 
-export default class EnvironmentProvider implements vscode.TreeDataProvider<EnvironmentVariable> {
-  private _onDidChangeTreeData: vscode.EventEmitter<EnvironmentVariable | undefined> = new vscode.EventEmitter<EnvironmentVariable | undefined>();
-  readonly onDidChangeTreeData: vscode.Event<EnvironmentVariable | undefined> = this._onDidChangeTreeData.event;
+export default class EnvironmentProvider implements vscode.TreeDataProvider<EnvironmentTreeItem> {
+  private _onDidChangeTreeData: vscode.EventEmitter<EnvironmentTreeItem | undefined> = new vscode.EventEmitter<EnvironmentTreeItem | undefined>();
+  readonly onDidChangeTreeData: vscode.Event<EnvironmentTreeItem | undefined> = this._onDidChangeTreeData.event;
 
   constructor(private workspaceRoot: string) {}
 
@@ -12,15 +12,15 @@ export default class EnvironmentProvider implements vscode.TreeDataProvider<Envi
     this._onDidChangeTreeData.fire();
   }
 
-  getTreeItem(element: EnvironmentVariable): EnvironmentVariable {
+  getTreeItem(element: EnvironmentTreeItem): EnvironmentTreeItem {
     return element;
   }
 
-  getChildren(element?: EnvironmentVariable): vscode.ProviderResult<EnvironmentVariable[]> {
+  getChildren(element?: EnvironmentTreeItem): vscode.ProviderResult<EnvironmentTreeItem[]> {
     const env = FenixConfig.get().getEnv();
     const ret = [];
     for (let v in env) {
-      ret.push(new EnvironmentVariable(v, env[v]));
+      ret.push(new EnvironmentTreeItem(v, env[v]));
     }
 
     return ret.sort((a, b) => a.varID < b.varID ? -1 : 1);

@@ -7,18 +7,17 @@ export default class FenixParser {
   private _lua: any;
 
   private static __instance: FenixParser;
-  static init(extensionContextPath: string): FenixParser {
+  static init(): void {
     if (!this.__instance) {
-      this.__instance = new FenixParser(extensionContextPath);
+      this.__instance = new FenixParser();
     }
-    return this.__instance;
   }
 
   static get(): FenixParser {
     return this.__instance;
   }
 
-  private constructor(extensionContextPath: string) {
+  private constructor() {
     this._data = {};
     this._lua = luajs.createEnv();
   }
@@ -35,8 +34,8 @@ export default class FenixParser {
     this._data[key] = value;
   }
 
-  get(keyy: string) {
-    return this._data[keyy];
+  get(key: string): any {
+    return this._data[key];
   }
 
   clear(): void {
@@ -81,6 +80,9 @@ export default class FenixParser {
       },
       env(var_name: string) {
         return _lua_data[var_name] || `<undefined_fenix_variable:${var_name}>`;
+      },
+      date(format: string) {
+        superRender(new Date().toLocaleDateString(format).toString());
       },
     });
     this._lua.loadLib('fnx', fenixLib);
