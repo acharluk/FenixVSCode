@@ -24,6 +24,10 @@ This extension contributes the following settings:
 
 ## Release Notes
 
+### 1.1.2
+
+- Fixed Fenix logo not loading
+
 ### 1.1.1
 
 - Code cleanup
