@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.1.3
+
+- Added a Getting **started section** to readme
+
 ## 1.1.2
 
 - Fixed Fenix logo not loading

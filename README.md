@@ -2,6 +2,22 @@
 
 Fenix is a powerful and easy to use project generator for Visual Studio Code
 
+## Getting started
+
+1. Open a new folder in Visual Studio Code (Ctrl+K, Ctrl+O)
+2. Press F1 and search for "Open Fenix"
+3. Enjoy ;)
+
+You can also use the new Fenix icon added to the activity bar (the one on the left). It allows you to add new repositories, pin your favourite templates, edit Fenix enviroment variables and add repositories from my recommended list, which I will update from time to time.
+
+## Getting started (Español)
+
+1. Abre una nueva carpeta en Visual Studio Code (Ctrl+K, Ctrl+O)
+2. Pulsa F1 y busca "Open Fenix"
+3. Disfruta ;)
+
+Tambien puedes utilizar el nuevo icono añadido en la barra de actividad (la de la izquierda). Te permite añadir nuevos repositorios, marcar tus plantillas como favoritas, editar las variables de entorno de Fenix y añadir repositorios de mi lista de recomendados, la cual actualizaré de vez en cuando.
+
 ## Features
 
 - Decentralized, you can create your own template repositories and share them!
@@ -23,6 +39,10 @@ This extension contributes the following settings:
 - You tell me :)
 
 ## Release Notes
+
+### 1.1.3
+
+- Added a Getting **started section** to readme
 
 ### 1.1.2
 
