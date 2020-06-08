@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
-import FenixConfig from '../configuration/FenixConfig';
+import FenixConfig from '../core/FenixConfig';
 import RepositoryTreeItem from '../providers/RepositoryTreeItem';
-import Fenix from '../Fenix';
+import Fenix from '../core/Fenix';
 
 export default {
   'fenix.repo.delete': async (e: RepositoryTreeItem) => {

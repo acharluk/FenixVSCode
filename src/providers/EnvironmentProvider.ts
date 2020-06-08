@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import FenixConfig from '../configuration/FenixConfig';
+import FenixConfig from '../core/FenixConfig';
 import EnvironmentTreeItem from './EnvironmentTreeItem';
 
 export default class EnvironmentProvider implements vscode.TreeDataProvider<EnvironmentTreeItem> {

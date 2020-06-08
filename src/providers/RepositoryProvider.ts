@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import Fenix from '../Fenix';
+import Fenix from '../core/Fenix';
 import RepositoryTreeItem from './RepositoryTreeItem';
 
 export default class RepositoryProvider implements vscode.TreeDataProvider<RepositoryTreeItem> {

@@ -3,8 +3,8 @@ import fetch from 'node-fetch';
 import * as os from 'os';
 import * as path from 'path';
 import * as vscode from 'vscode';
-import FenixConfig from '../configuration/FenixConfig';
-import FenixParser from '../FenixParser';
+import FenixConfig from './FenixConfig';
+import FenixParser from './FenixParser';
 import Repository from '../interfaces/Repository';
 import Template from '../interfaces/Template';
 

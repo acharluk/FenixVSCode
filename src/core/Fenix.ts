@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
-import FenixConfig from './configuration/FenixConfig';
+import FenixConfig from './FenixConfig';
 import FenixParser from './FenixParser';
 import FenixView from './FenixViewContainer';
-import Template from './interfaces/Template';
-import RepoHandler from './template/RepoHandler';
-import FenixWebview from './webviews/FenixWebview';
+import Template from '../interfaces/Template';
+import RepoHandler from './RepoHandler';
+import FenixWebview from './FenixWebview';
 
 
 export default class Fenix {

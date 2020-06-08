@@ -1,5 +1,5 @@
 import * as luajs from 'lua-in-js';
-import FenixConfig from './configuration/FenixConfig';
+import FenixConfig from './FenixConfig';
 
 
 export default class FenixParser {

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import FenixConfig from '../configuration/FenixConfig';
+import FenixConfig from '../core/FenixConfig';
 import EnvironmentVariable from '../providers/EnvironmentTreeItem';
 
 export default {

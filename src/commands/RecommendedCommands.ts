@@ -1,6 +1,6 @@
-import FenixConfig from '../configuration/FenixConfig';
-import Fenix from '../Fenix';
-import RecommendedTreeItem from "../providers/RecommendedTreeITem";
+import FenixConfig from '../core/FenixConfig';
+import Fenix from '../core/Fenix';
+import RecommendedTreeItem from "../providers/RecommendedTreeItem";
 
 export default {
   'fenix.recommended.add': async (e: RecommendedTreeItem) => {

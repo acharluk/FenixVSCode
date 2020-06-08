@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import FenixConfig from '../configuration/FenixConfig';
+import FenixConfig from '../core/FenixConfig';
 import QuickCreateTreeItem from './QuickCreateTreeItem';
 
 export default class QuickCreateProvider implements vscode.TreeDataProvider<QuickCreateTreeItem> {

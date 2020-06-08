@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import RepositoryTreeItem from '../providers/RepositoryTreeItem';
-import FenixConfig from '../configuration/FenixConfig';
+import FenixConfig from '../core/FenixConfig';
 import QuickCreateTreeItem from '../providers/QuickCreateTreeItem';
-import Fenix from '../Fenix';
+import Fenix from '../core/Fenix';
 
 export default {
   'fenix.template.run': (e: QuickCreateTreeItem) => {

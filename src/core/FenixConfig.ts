@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
-import Fenix from '../Fenix';
+import Fenix from './Fenix';
 import Template from '../interfaces/Template';
-import RepoHandler from '../template/RepoHandler';
 
 export default class FenixConfig {
   private _configRoot: string = 'fenix';
