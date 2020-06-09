@@ -1,9 +1,6 @@
+import fetch from 'node-fetch';
 import * as vscode from 'vscode';
 import RecommendedTreeItem from './RecommendedTreeItem';
-import fetch from 'node-fetch';
-import Template from '../interfaces/Template';
-import Repository from '../interfaces/Repository';
-import FenixConfig from '../core/FenixConfig';
 
 export default class RecommendedProvider implements vscode.TreeDataProvider<RecommendedTreeItem> {
   private _onDidChangeTreeData: vscode.EventEmitter<RecommendedTreeItem | undefined> = new vscode.EventEmitter<RecommendedTreeItem | undefined>();

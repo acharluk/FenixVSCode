@@ -245,7 +245,17 @@
 					"group": "inline"
 				}
 			]
-		}
+		},
+		"viewsWelcome": [
+			{
+				"view": "fenixEnvironment",
+				"contents": "No variables configured\n[Add variable](command:fenix.env.new)"
+			},
+			{
+				"view": "fenixQuickCreate",
+				"contents": "[Open Fenix](command:fenix.open)"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

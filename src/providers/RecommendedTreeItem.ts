@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import Template from '../interfaces/Template';
 
 export default class RecommendedTreeItem extends vscode.TreeItem {
   constructor(
