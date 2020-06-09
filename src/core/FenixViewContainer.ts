@@ -8,7 +8,7 @@ import RepositoryTreeItem from '../providers/RepositoryTreeItem';
 import RecommendedProvider from '../providers/RecommendedProvider';
 import RecommendedTreeItem from '../providers/RecommendedTreeItem';
 
-export default class FenixView {
+export default class FenixViewContainer {
   quickCreateProvider: QuickCreateProvider;
   repositoryProvider: RepositoryProvider;
   environmentProvider: EnvironmentProvider;

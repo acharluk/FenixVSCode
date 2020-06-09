@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import FenixConfig from './FenixConfig';
 import FenixParser from './FenixParser';
-import FenixView from './FenixViewContainer';
+import FenixViewContainer from './FenixViewContainer';
 import Template from '../interfaces/Template';
 import RepoHandler from './RepoHandler';
 import FenixWebview from './FenixWebview';
@@ -10,7 +10,7 @@ import FenixWebview from './FenixWebview';
 export default class Fenix {
   private _webview: FenixWebview;
   private _repoHandler: RepoHandler;
-  private _view: FenixView;
+  private _view: FenixViewContainer;
   private _extensionContext: vscode.ExtensionContext;
 
   private static __instance: Fenix;
@@ -28,7 +28,7 @@ export default class Fenix {
     return this._repoHandler;
   }
 
-  getViewContainer(): FenixView {
+  getViewContainer(): FenixViewContainer {
     return this._view;
   }
 
@@ -42,7 +42,7 @@ export default class Fenix {
 
     this._webview = new FenixWebview(extensionContext);
     this._repoHandler = new RepoHandler();
-    this._view = new FenixView(extensionContext);
+    this._view = new FenixViewContainer(extensionContext);
     this._extensionContext = extensionContext;
   }
 

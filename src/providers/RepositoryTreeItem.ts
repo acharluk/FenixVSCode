@@ -16,10 +16,7 @@ export default class RepositoryTreeItem extends vscode.TreeItem {
     );
   }
 
-  contextValue = `fenix-${this.type}`;
-
-  iconPath = {
-    dark: join(__filename, '..' , '..', 'assets','icons','/star-full.svg'),
-    light: join(__filename, '..' , '..', 'assets','icons','/star-full.svg'),
+  get contextValue(){
+    return `fenix-${this.type}`;
   };
 }

@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-export default class EnvironmentVariable extends vscode.TreeItem {
+export default class EnvironmentTreeItem extends vscode.TreeItem {
   constructor(
     public readonly varID: string,
     public readonly varValue: string
