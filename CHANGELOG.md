@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.1.5
+
+- Fixed Webview not loading on VSCode 1.47.0 or newer
+
+## 1.1.4
+
+- Code cleanup
+
 ## 1.1.3
 
 - Added a Getting **started section** to readme

@@ -40,20 +40,6 @@ This extension contributes the following settings:
 
 ## Release Notes
 
-### 1.1.3
+### 1.1.5
 
-- Added a Getting **started section** to readme
-
-### 1.1.2
-
-- Fixed Fenix logo not loading
-
-### 1.1.1
-
-- Code cleanup
-
-- Added fnx.date function to the parser, now you can use this function to get the current date
-
-### 1.1.0
-
-- First public release
+- Fixed Webview not loading on VSCode 1.47.0 or newer
