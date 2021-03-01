@@ -88,8 +88,8 @@ export default class RepoHandler {
           let remote = await fetch(template.repoUrl + file.from);
           let data = await remote.text();
           data = FenixParser.get().renderRaw(data, template.environment);
-
-          fs.writeFileSync(path.join(rootPath, file.to), data);
+          let newto = FenixParser.get().renderRaw(file.to, template.environment);
+          fs.writeFileSync(path.join(rootPath, newto), data);
         })
       );
     }
